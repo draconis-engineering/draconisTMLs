@@ -1,29 +1,39 @@
 <!-- Draconis Swimming Markup Language Example -->
 
 <?xml version="1.0" encoding="UTF-8"?>
-<workout type="swimming" id="swim_dsml_01">
+<swimsession id="dsml_0000">
     <config>
         <pool lengthMeters="25" laneWidthMeters="5" depthMeters="1.5"/>
+        <gear paddles="true" fins="true" snorkel="true"/>
     </config>
+
     <presession>
         <bandWork durationMinutes="5"/>
     </presession>
+
     <warmup>
         <drillset>
             <superman lengthMeters="100"/>
             <rest lengthSeconds="30"/>
         </drillset>
     </warmup>
+
     <main>
+        <repeat>
+            <freestyle lengthMeters="400" snorkel="true" RPE="5"/>
+            <rest lengthMinutes="1"/>
+        </repeat>
         <repeat count="5">
-            <freestyle lengthMeters="200"/>
+            <freestyle lengthMeters="200" RPE="8"/>
             <rest lengthSeconds="30"/>
         </repeat>
     </main>
+
     <cooldown>
-        <swim lengthMeters="200" paddles="true" fins="true"/>
+        <swim lengthMeters="200" paddles="true" fins="true" snorkel="true"/>
     </cooldown>
+
     <postsession>
-        <sauna durationMinutes="10"/>
+        <sauna durationMinutes="15"/>
     </postsession>
-</workout>
+</swimsession>
