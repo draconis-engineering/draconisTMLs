@@ -1,8 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-           targetNamespace="https://draconis.engineering/dtml/drml"
-           xmlns="https://draconis.engineering/dtml/drml"
-           elementFormDefault="qualified">
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="https://draconis.engineering/dtml/drml"
+	xmlns="https://draconis.engineering/dtml/drml"
+	elementFormDefault="qualified"
+>
 
   <xs:annotation>
     <xs:documentation>
@@ -11,160 +13,175 @@
     </xs:documentation>
   </xs:annotation>
 
-  <xs:element name="runsession" type="RunSessionType"/>
+  <xs:element name="runsession" type="RunSessionType" />
 
   <xs:complexType name="RunSessionType">
     <xs:sequence>
-      <xs:element name="metadata" type="MetadataType" minOccurs="0"/>
-      <xs:element name="config" type="ConfigType" minOccurs="0"/>
-      <xs:element name="presession" type="SessionPhaseType" minOccurs="0"/>
-      <xs:element name="warmup" type="SessionPhaseType" minOccurs="0"/>
-      <xs:element name="main" type="SessionPhaseType" minOccurs="1"/>
-      <xs:element name="cooldown" type="SessionPhaseType" minOccurs="0"/>
-      <xs:element name="postsession" type="SessionPhaseType" minOccurs="0"/>
+      <xs:element name="metadata" type="MetadataType" minOccurs="0" />
+      <xs:element name="config" type="ConfigType" minOccurs="0" />
+      <xs:element name="presession" type="SessionPhaseType" minOccurs="0" />
+      <xs:element name="warmup" type="SessionPhaseType" minOccurs="0" />
+      <xs:element name="main" type="SessionPhaseType" minOccurs="1" />
+      <xs:element name="cooldown" type="SessionPhaseType" minOccurs="0" />
+      <xs:element name="postsession" type="SessionPhaseType" minOccurs="0" />
     </xs:sequence>
-    <xs:attribute name="id" type="xs:string" use="required"/>
-    <xs:attribute name="name" type="xs:string" use="optional"/>
-    <xs:attribute name="date" type="xs:date" use="optional"/>
-    <xs:attribute name="version" type="xs:string" use="optional"/>
+    <xs:attribute name="id" type="xs:string" use="required" />
+    <xs:attribute name="name" type="xs:string" use="optional" />
+    <xs:attribute name="date" type="xs:date" use="optional" />
+    <xs:attribute name="version" type="xs:string" use="optional" />
   </xs:complexType>
 
   <xs:complexType name="MetadataType">
     <xs:sequence>
-      <xs:element name="description" type="xs:string" minOccurs="0"/>
-      <xs:element name="athlete" type="xs:string" minOccurs="0"/>
-      <xs:element name="coach" type="xs:string" minOccurs="0"/>
-      <xs:element name="notes" type="xs:string" minOccurs="0"/>
+      <xs:element name="description" type="xs:string" minOccurs="0" />
+      <xs:element name="athlete" type="xs:string" minOccurs="0" />
+      <xs:element name="coach" type="xs:string" minOccurs="0" />
+      <xs:element name="notes" type="xs:string" minOccurs="0" />
     </xs:sequence>
   </xs:complexType>
 
   <xs:complexType name="ConfigType">
     <xs:sequence>
-      <xs:element name="location" type="LocationType" minOccurs="0"/>
-      <xs:element name="gear" type="RunGearType" minOccurs="0"/>
+      <xs:element name="location" type="LocationType" minOccurs="0" />
+      <xs:element name="gear" type="RunGearType" minOccurs="0" />
     </xs:sequence>
   </xs:complexType>
 
   <xs:complexType name="LocationType">
-    <xs:attribute name="type" type="LocationKindType" use="optional"/>
-    <xs:attribute name="surface" type="SurfaceType" use="optional"/>
-    <xs:attribute name="elevation" type="xs:decimal" use="optional"/>
+    <xs:attribute name="type" type="LocationKindType" use="optional" />
+    <xs:attribute name="surface" type="SurfaceType" use="optional" />
+    <xs:attribute name="elevation" type="xs:decimal" use="optional" />
   </xs:complexType>
 
   <xs:simpleType name="LocationKindType">
     <xs:restriction base="xs:string">
-      <xs:enumeration value="road"/>
-      <xs:enumeration value="trail"/>
-      <xs:enumeration value="track"/>
-      <xs:enumeration value="treadmill"/>
-      <xs:enumeration value="crosscountry"/>
+      <xs:enumeration value="road" />
+      <xs:enumeration value="trail" />
+      <xs:enumeration value="track" />
+      <xs:enumeration value="treadmill" />
+      <xs:enumeration value="crosscountry" />
     </xs:restriction>
   </xs:simpleType>
 
   <xs:simpleType name="SurfaceType">
     <xs:restriction base="xs:string">
-      <xs:enumeration value="asphalt"/>
-      <xs:enumeration value="concrete"/>
-      <xs:enumeration value="gravel"/>
-      <xs:enumeration value="dirt"/>
-      <xs:enumeration value="grass"/>
-      <xs:enumeration value="track"/>
-      <xs:enumeration value="treadmill"/>
+      <xs:enumeration value="asphalt" />
+      <xs:enumeration value="concrete" />
+      <xs:enumeration value="gravel" />
+      <xs:enumeration value="dirt" />
+      <xs:enumeration value="grass" />
+      <xs:enumeration value="track" />
+      <xs:enumeration value="treadmill" />
     </xs:restriction>
   </xs:simpleType>
 
   <xs:complexType name="RunGearType">
-    <xs:attribute name="shoes" type="xs:string" use="optional"/>
-    <xs:attribute name="watch" type="xs:boolean" use="optional"/>
+    <xs:attribute name="shoes" type="xs:string" use="optional" />
+    <xs:attribute name="watch" type="xs:boolean" use="optional" />
   </xs:complexType>
 
   <xs:complexType name="SessionPhaseType">
     <xs:choice minOccurs="0" maxOccurs="unbounded">
-      <xs:element name="run" type="RunType"/>
-      <xs:element name="easy" type="RunType"/>
-      <xs:element name="tempo" type="RunType"/>
-      <xs:element name="threshold" type="RunType"/>
-      <xs:element name="intervals" type="IntervalsType"/>
-      <xs:element name="repeats" type="RepeatsType"/>
-      <xs:element name="rest" type="RestType"/>
-      <xs:element name="walk" type="WalkType"/>
-      <xs:element name="strides" type="StridesType"/>
-      <xs:element name="drills" type="DrillsType"/>
+      <xs:element name="run" type="RunType" />
+      <xs:element name="easy" type="RunType" />
+      <xs:element name="tempo" type="RunType" />
+      <xs:element name="threshold" type="RunType" />
+      <xs:element name="intervals" type="IntervalsType" />
+      <xs:element name="repeats" type="RepeatsType" />
+      <xs:element name="rest" type="RestType" />
+      <xs:element name="walk" type="WalkType" />
+      <xs:element name="strides" type="StridesType" />
+      <xs:element name="drills" type="DrillsType" />
     </xs:choice>
   </xs:complexType>
 
   <xs:complexType name="RunType">
-    <xs:attribute name="distanceKm" type="xs:decimal" use="optional"/>
-    <xs:attribute name="distanceMiles" type="xs:decimal" use="optional"/>
-    <xs:attribute name="durationMinutes" type="xs:decimal" use="optional"/>
-    <xs:attribute name="durationSeconds" type="xs:decimal" use="optional"/>
-    <xs:attribute name="pace" type="xs:string" use="optional"/>
-    <xs:attribute name="HR" type="xs:integer" use="optional"/>
-    <xs:attribute name="RPE" type="RPEType" use="optional"/>
-    <xs:attribute name="notes" type="xs:string" use="optional"/>
+    <xs:attribute name="distanceKm" type="xs:decimal" use="optional" />
+    <xs:attribute name="distanceMiles" type="xs:decimal" use="optional" />
+    <xs:attribute name="durationMinutes" type="xs:decimal" use="optional" />
+    <xs:attribute name="durationSeconds" type="xs:decimal" use="optional" />
+    <xs:attribute name="pace" type="xs:string" use="optional" />
+    <xs:attribute name="HR" type="xs:integer" use="optional" />
+    <xs:attribute name="RPE" type="RPEType" use="optional" />
+    <xs:attribute name="notes" type="xs:string" use="optional" />
   </xs:complexType>
 
   <xs:complexType name="IntervalsType">
     <xs:sequence>
-      <xs:element name="work" type="IntervalWorkType" minOccurs="1"/>
-      <xs:element name="rest" type="RestType" minOccurs="1"/>
+      <xs:element name="work" type="IntervalWorkType" minOccurs="1" />
+      <xs:element name="rest" type="RestType" minOccurs="1" />
     </xs:sequence>
-    <xs:attribute name="repeats" type="xs:positiveInteger" use="optional" default="1"/>
+    <xs:attribute
+			name="repeats"
+			type="xs:positiveInteger"
+			use="optional"
+			default="1"
+		/>
   </xs:complexType>
 
   <xs:complexType name="IntervalWorkType">
-    <xs:attribute name="distanceKm" type="xs:decimal" use="optional"/>
-    <xs:attribute name="distanceMiles" type="xs:decimal" use="optional"/>
-    <xs:attribute name="durationMinutes" type="xs:decimal" use="optional"/>
-    <xs:attribute name="durationSeconds" type="xs:decimal" use="optional"/>
-    <xs:attribute name="pace" type="xs:string" use="optional"/>
-    <xs:attribute name="RPE" type="RPEType" use="optional"/>
+    <xs:attribute name="distanceKm" type="xs:decimal" use="optional" />
+    <xs:attribute name="distanceMiles" type="xs:decimal" use="optional" />
+    <xs:attribute name="durationMinutes" type="xs:decimal" use="optional" />
+    <xs:attribute name="durationSeconds" type="xs:decimal" use="optional" />
+    <xs:attribute name="pace" type="xs:string" use="optional" />
+    <xs:attribute name="RPE" type="RPEType" use="optional" />
   </xs:complexType>
 
   <xs:complexType name="RepeatsType">
     <xs:choice minOccurs="0" maxOccurs="unbounded">
-      <xs:element name="run" type="RunType"/>
-      <xs:element name="intervals" type="IntervalsType"/>
-      <xs:element name="rest" type="RestType"/>
+      <xs:element name="run" type="RunType" />
+      <xs:element name="intervals" type="IntervalsType" />
+      <xs:element name="rest" type="RestType" />
     </xs:choice>
-    <xs:attribute name="count" type="xs:positiveInteger" use="optional" default="1"/>
+    <xs:attribute
+			name="count"
+			type="xs:positiveInteger"
+			use="optional"
+			default="1"
+		/>
   </xs:complexType>
 
   <xs:complexType name="RestType">
-    <xs:attribute name="durationMinutes" type="xs:decimal" use="optional"/>
-    <xs:attribute name="durationSeconds" type="xs:decimal" use="optional"/>
-    <xs:attribute name="type" type="RestKindType" use="optional" default="static"/>
+    <xs:attribute name="durationMinutes" type="xs:decimal" use="optional" />
+    <xs:attribute name="durationSeconds" type="xs:decimal" use="optional" />
+    <xs:attribute
+			name="type"
+			type="RestKindType"
+			use="optional"
+			default="static"
+		/>
   </xs:complexType>
 
   <xs:simpleType name="RestKindType">
     <xs:restriction base="xs:string">
-      <xs:enumeration value="static"/>
-      <xs:enumeration value="walk"/>
-      <xs:enumeration value="jog"/>
+      <xs:enumeration value="static" />
+      <xs:enumeration value="walk" />
+      <xs:enumeration value="jog" />
     </xs:restriction>
   </xs:simpleType>
 
   <xs:complexType name="WalkType">
-    <xs:attribute name="distanceKm" type="xs:decimal" use="optional"/>
-    <xs:attribute name="durationMinutes" type="xs:decimal" use="optional"/>
+    <xs:attribute name="distanceKm" type="xs:decimal" use="optional" />
+    <xs:attribute name="durationMinutes" type="xs:decimal" use="optional" />
   </xs:complexType>
 
   <xs:complexType name="StridesType">
-    <xs:attribute name="count" type="xs:positiveInteger" use="optional"/>
-    <xs:attribute name="distanceMeters" type="xs:decimal" use="optional"/>
-    <xs:attribute name="RPE" type="RPEType" use="optional"/>
+    <xs:attribute name="count" type="xs:positiveInteger" use="optional" />
+    <xs:attribute name="distanceMeters" type="xs:decimal" use="optional" />
+    <xs:attribute name="RPE" type="RPEType" use="optional" />
   </xs:complexType>
 
   <xs:complexType name="DrillsType">
-    <xs:attribute name="name" type="xs:string" use="optional"/>
-    <xs:attribute name="durationMinutes" type="xs:decimal" use="optional"/>
-    <xs:attribute name="notes" type="xs:string" use="optional"/>
+    <xs:attribute name="name" type="xs:string" use="optional" />
+    <xs:attribute name="durationMinutes" type="xs:decimal" use="optional" />
+    <xs:attribute name="notes" type="xs:string" use="optional" />
   </xs:complexType>
 
   <xs:simpleType name="RPEType">
     <xs:restriction base="xs:integer">
-      <xs:minInclusive value="1"/>
-      <xs:maxInclusive value="10"/>
+      <xs:minInclusive value="1" />
+      <xs:maxInclusive value="10" />
     </xs:restriction>
   </xs:simpleType>
 

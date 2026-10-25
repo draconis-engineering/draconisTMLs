@@ -10,7 +10,7 @@ export class XSDValidator {
 
   validate(xmlContent: string, schemaType: 'dsml' | 'drml' | 'dcml' | 'dtir'): { valid: boolean; errors: string[] } {
     const errors: string[] = [];
-    
+
     try {
       const schemaPath = path.join(this.schemasDir, `${schemaType}.xsd`);
       if (!fs.existsSync(schemaPath)) {
@@ -24,7 +24,7 @@ export class XSDValidator {
         const xsdDoc = libxmljs.parseXml(fs.readFileSync(schemaPath, 'utf-8'));
         const xmlDoc = libxmljs.parseXml(xmlContent);
         const valid = xmlDoc.validate(xsdDoc);
-        
+
         if (!valid) {
           if (xmlDoc.validationErrors) {
             xmlDoc.validationErrors.forEach((err: any) => {
@@ -92,7 +92,7 @@ export class XSDValidator {
 
       const content = fs.readFileSync(filePath, 'utf-8');
       const fileName = path.basename(filePath).toLowerCase();
-      
+
       if (fileName.includes('.dsml.')) {
         return { ...this.validate(content, 'dsml'), type: 'dsml' };
       } else if (fileName.includes('.drml.')) {

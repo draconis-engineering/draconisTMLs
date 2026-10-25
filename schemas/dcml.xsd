@@ -1,8 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-           targetNamespace="https://draconis.engineering/dtml/dcml"
-           xmlns="https://draconis.engineering/dtml/dcml"
-           elementFormDefault="qualified">
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="https://draconis.engineering/dtml/dcml"
+	xmlns="https://draconis.engineering/dtml/dcml"
+	elementFormDefault="qualified"
+>
 
   <xs:annotation>
     <xs:documentation>
@@ -11,135 +13,149 @@
     </xs:documentation>
   </xs:annotation>
 
-  <xs:element name="bikesession" type="BikeSessionType"/>
+  <xs:element name="bikesession" type="BikeSessionType" />
 
   <xs:complexType name="BikeSessionType">
     <xs:sequence>
-      <xs:element name="metadata" type="MetadataType" minOccurs="0"/>
-      <xs:element name="config" type="ConfigType" minOccurs="0"/>
-      <xs:element name="presession" type="SessionPhaseType" minOccurs="0"/>
-      <xs:element name="warmup" type="SessionPhaseType" minOccurs="0"/>
-      <xs:element name="main" type="SessionPhaseType" minOccurs="1"/>
-      <xs:element name="cooldown" type="SessionPhaseType" minOccurs="0"/>
-      <xs:element name="postsession" type="SessionPhaseType" minOccurs="0"/>
+      <xs:element name="metadata" type="MetadataType" minOccurs="0" />
+      <xs:element name="config" type="ConfigType" minOccurs="0" />
+      <xs:element name="presession" type="SessionPhaseType" minOccurs="0" />
+      <xs:element name="warmup" type="SessionPhaseType" minOccurs="0" />
+      <xs:element name="main" type="SessionPhaseType" minOccurs="1" />
+      <xs:element name="cooldown" type="SessionPhaseType" minOccurs="0" />
+      <xs:element name="postsession" type="SessionPhaseType" minOccurs="0" />
     </xs:sequence>
-    <xs:attribute name="id" type="xs:string" use="required"/>
-    <xs:attribute name="name" type="xs:string" use="optional"/>
-    <xs:attribute name="date" type="xs:date" use="optional"/>
-    <xs:attribute name="version" type="xs:string" use="optional"/>
+    <xs:attribute name="id" type="xs:string" use="required" />
+    <xs:attribute name="name" type="xs:string" use="optional" />
+    <xs:attribute name="date" type="xs:date" use="optional" />
+    <xs:attribute name="version" type="xs:string" use="optional" />
   </xs:complexType>
 
   <xs:complexType name="MetadataType">
     <xs:sequence>
-      <xs:element name="description" type="xs:string" minOccurs="0"/>
-      <xs:element name="athlete" type="xs:string" minOccurs="0"/>
-      <xs:element name="coach" type="xs:string" minOccurs="0"/>
-      <xs:element name="notes" type="xs:string" minOccurs="0"/>
+      <xs:element name="description" type="xs:string" minOccurs="0" />
+      <xs:element name="athlete" type="xs:string" minOccurs="0" />
+      <xs:element name="coach" type="xs:string" minOccurs="0" />
+      <xs:element name="notes" type="xs:string" minOccurs="0" />
     </xs:sequence>
   </xs:complexType>
 
   <xs:complexType name="ConfigType">
     <xs:sequence>
-      <xs:element name="trainer" type="TrainerType" minOccurs="0"/>
-      <xs:element name="bike" type="BikeType" minOccurs="0"/>
+      <xs:element name="trainer" type="TrainerType" minOccurs="0" />
+      <xs:element name="bike" type="BikeType" minOccurs="0" />
     </xs:sequence>
   </xs:complexType>
 
   <xs:complexType name="TrainerType">
-    <xs:attribute name="type" type="TrainerKindType" use="optional"/>
-    <xs:attribute name="resistanceMode" type="ResistanceModeType" use="optional"/>
+    <xs:attribute name="type" type="TrainerKindType" use="optional" />
+    <xs:attribute
+			name="resistanceMode"
+			type="ResistanceModeType"
+			use="optional"
+		/>
   </xs:complexType>
 
   <xs:simpleType name="TrainerKindType">
     <xs:restriction base="xs:string">
-      <xs:enumeration value="smart"/>
-      <xs:enumeration value="wheel-on"/>
-      <xs:enumeration value="direct-drive"/>
-      <xs:enumeration value="fluid"/>
-      <xs:enumeration value="magnetic"/>
+      <xs:enumeration value="smart" />
+      <xs:enumeration value="wheel-on" />
+      <xs:enumeration value="direct-drive" />
+      <xs:enumeration value="fluid" />
+      <xs:enumeration value="magnetic" />
     </xs:restriction>
   </xs:simpleType>
 
   <xs:simpleType name="ResistanceModeType">
     <xs:restriction base="xs:string">
-      <xs:enumeration value="erg"/>
-      <xs:enumeration value="sim"/>
-      <xs:enumeration value="level"/>
-      <xs:enumeration value="resistance"/>
+      <xs:enumeration value="erg" />
+      <xs:enumeration value="sim" />
+      <xs:enumeration value="level" />
+      <xs:enumeration value="resistance" />
     </xs:restriction>
   </xs:simpleType>
 
   <xs:complexType name="BikeType">
-    <xs:attribute name="name" type="xs:string" use="optional"/>
-    <xs:attribute name="ftp" type="xs:decimal" use="optional"/>
+    <xs:attribute name="name" type="xs:string" use="optional" />
+    <xs:attribute name="ftp" type="xs:decimal" use="optional" />
   </xs:complexType>
 
   <xs:complexType name="SessionPhaseType">
     <xs:choice minOccurs="0" maxOccurs="unbounded">
-      <xs:element name="ride" type="RideType"/>
-      <xs:element name="warm" type="RideType"/>
-      <xs:element name="easy" type="RideType"/>
-      <xs:element name="steady" type="RideType"/>
-      <xs:element name="threshold" type="RideType"/>
-      <xs:element name="sweetspot" type="RideType"/>
-      <xs:element name="vo2" type="RideType"/>
-      <xs:element name="intervals" type="IntervalsType"/>
-      <xs:element name="blocks" type="BlocksType"/>
-      <xs:element name="rest" type="RestType"/>
+      <xs:element name="ride" type="RideType" />
+      <xs:element name="warm" type="RideType" />
+      <xs:element name="easy" type="RideType" />
+      <xs:element name="steady" type="RideType" />
+      <xs:element name="threshold" type="RideType" />
+      <xs:element name="sweetspot" type="RideType" />
+      <xs:element name="vo2" type="RideType" />
+      <xs:element name="intervals" type="IntervalsType" />
+      <xs:element name="blocks" type="BlocksType" />
+      <xs:element name="rest" type="RestType" />
     </xs:choice>
   </xs:complexType>
 
   <xs:complexType name="RideType">
-    <xs:attribute name="distanceKm" type="xs:decimal" use="optional"/>
-    <xs:attribute name="durationMinutes" type="xs:decimal" use="optional"/>
-    <xs:attribute name="durationSeconds" type="xs:decimal" use="optional"/>
-    <xs:attribute name="power" type="xs:integer" use="optional"/>
-    <xs:attribute name="cadence" type="xs:integer" use="optional"/>
-    <xs:attribute name="FTPpct" type="xs:decimal" use="optional"/>
-    <xs:attribute name="RPE" type="RPEType" use="optional"/>
-    <xs:attribute name="HR" type="xs:integer" use="optional"/>
-    <xs:attribute name="notes" type="xs:string" use="optional"/>
+    <xs:attribute name="distanceKm" type="xs:decimal" use="optional" />
+    <xs:attribute name="durationMinutes" type="xs:decimal" use="optional" />
+    <xs:attribute name="durationSeconds" type="xs:decimal" use="optional" />
+    <xs:attribute name="power" type="xs:integer" use="optional" />
+    <xs:attribute name="cadence" type="xs:integer" use="optional" />
+    <xs:attribute name="FTPpct" type="xs:decimal" use="optional" />
+    <xs:attribute name="RPE" type="RPEType" use="optional" />
+    <xs:attribute name="HR" type="xs:integer" use="optional" />
+    <xs:attribute name="notes" type="xs:string" use="optional" />
   </xs:complexType>
 
   <xs:complexType name="IntervalsType">
     <xs:sequence>
-      <xs:element name="work" type="IntervalWorkType" minOccurs="1"/>
-      <xs:element name="rest" type="RestType" minOccurs="1"/>
+      <xs:element name="work" type="IntervalWorkType" minOccurs="1" />
+      <xs:element name="rest" type="RestType" minOccurs="1" />
     </xs:sequence>
-    <xs:attribute name="repeats" type="xs:positiveInteger" use="optional" default="1"/>
-    <xs:attribute name="on" type="xs:string" use="optional"/>
-    <xs:attribute name="off" type="xs:string" use="optional"/>
+    <xs:attribute
+			name="repeats"
+			type="xs:positiveInteger"
+			use="optional"
+			default="1"
+		/>
+    <xs:attribute name="on" type="xs:string" use="optional" />
+    <xs:attribute name="off" type="xs:string" use="optional" />
   </xs:complexType>
 
   <xs:complexType name="IntervalWorkType">
-    <xs:attribute name="durationMinutes" type="xs:decimal" use="optional"/>
-    <xs:attribute name="durationSeconds" type="xs:decimal" use="optional"/>
-    <xs:attribute name="power" type="xs:integer" use="optional"/>
-    <xs:attribute name="FTPpct" type="xs:decimal" use="optional"/>
-    <xs:attribute name="cadence" type="xs:integer" use="optional"/>
-    <xs:attribute name="RPE" type="RPEType" use="optional"/>
+    <xs:attribute name="durationMinutes" type="xs:decimal" use="optional" />
+    <xs:attribute name="durationSeconds" type="xs:decimal" use="optional" />
+    <xs:attribute name="power" type="xs:integer" use="optional" />
+    <xs:attribute name="FTPpct" type="xs:decimal" use="optional" />
+    <xs:attribute name="cadence" type="xs:integer" use="optional" />
+    <xs:attribute name="RPE" type="RPEType" use="optional" />
   </xs:complexType>
 
   <xs:complexType name="BlocksType">
     <xs:choice minOccurs="0" maxOccurs="unbounded">
-      <xs:element name="ride" type="RideType"/>
-      <xs:element name="intervals" type="IntervalsType"/>
-      <xs:element name="rest" type="RestType"/>
+      <xs:element name="ride" type="RideType" />
+      <xs:element name="intervals" type="IntervalsType" />
+      <xs:element name="rest" type="RestType" />
     </xs:choice>
-    <xs:attribute name="repeats" type="xs:positiveInteger" use="optional" default="1"/>
+    <xs:attribute
+			name="repeats"
+			type="xs:positiveInteger"
+			use="optional"
+			default="1"
+		/>
   </xs:complexType>
 
   <xs:complexType name="RestType">
-    <xs:attribute name="durationMinutes" type="xs:decimal" use="optional"/>
-    <xs:attribute name="durationSeconds" type="xs:decimal" use="optional"/>
-    <xs:attribute name="power" type="xs:integer" use="optional"/>
-    <xs:attribute name="FTPpct" type="xs:decimal" use="optional"/>
+    <xs:attribute name="durationMinutes" type="xs:decimal" use="optional" />
+    <xs:attribute name="durationSeconds" type="xs:decimal" use="optional" />
+    <xs:attribute name="power" type="xs:integer" use="optional" />
+    <xs:attribute name="FTPpct" type="xs:decimal" use="optional" />
   </xs:complexType>
 
   <xs:simpleType name="RPEType">
     <xs:restriction base="xs:integer">
-      <xs:minInclusive value="1"/>
-      <xs:maxInclusive value="10"/>
+      <xs:minInclusive value="1" />
+      <xs:maxInclusive value="10" />
     </xs:restriction>
   </xs:simpleType>
 

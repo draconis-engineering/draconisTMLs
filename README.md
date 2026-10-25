@@ -6,11 +6,11 @@ DTMLs are XML-based markup languages for describing triathlon training sessions 
 
 ## Languages
 
-| Language | Extension | Purpose | Status |
-|----------|-----------|---------|--------|
-| **DSML** (Draconis Swimming Markup Language) | `.dsml.xml` | Swimming sessions | In Development |
-| **DRML** (Draconis Running Markup Language) | `.drml.xml` | Running sessions | In Development |
-| **DCML** (Draconis Cycling Markup Language) | `.dcml.xml` | Cycling sessions | In Development |
+| Language                                                 | Extension   | Purpose                                 | Status         |
+| -------------------------------------------------------- | ----------- | --------------------------------------- | -------------- |
+| **DSML** (Draconis Swimming Markup Language)             | `.dsml.xml` | Swimming sessions                       | In Development |
+| **DRML** (Draconis Running Markup Language)              | `.drml.xml` | Running sessions                        | In Development |
+| **DCML** (Draconis Cycling Markup Language)              | `.dcml.xml` | Cycling sessions                        | In Development |
 | **DTIR** (Draconis Training Intermediate Representation) | `.dtir.xml` | Normalized common format for all sports | In Development |
 
 ## Quick Start
@@ -31,14 +31,14 @@ npx ts-node tools/validate.ts src/dsml/example.dsml.xml
 ### Using the API
 
 ```typescript
-import { DTMLParser, DTMLValidator, DTIRTransformer } from '@draconis/tmml';
+import { DTMLParser, DTMLValidator, DTIRTransformer } from "@draconis/tmml";
 
 const parser = new DTMLParser();
-const session = parser.parseFile('session.dsml.xml');
+const session = parser.parseFile("session.dsml.xml");
 
 const validator = new DTMLValidator();
-const result = validator.validateFile('session.dsml.xml');
-console.log(result.valid ? 'Valid' : 'Invalid');
+const result = validator.validateFile("session.dsml.xml");
+console.log(result.valid ? "Valid" : "Invalid");
 ```
 
 ## Features
