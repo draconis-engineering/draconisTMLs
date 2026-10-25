@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="https://draconis.engineering/dtml/dtir"
+           xmlns="https://draconis.engineering/dtml/dtir"
+           xmlns:dt="https://draconis.engineering/dtml/core"
+           elementFormDefault="qualified">
+
+  <xs:annotation>
+    <xs:documentation>
+      Draconis Training Intermediate Representation (DTIR) Schema
+      Version: 0.1.0
+      Common normalized format for all sports
+    </xs:documentation>
+  </xs:annotation>
+
+  <xs:element name="training" type="TrainingType"/>
+
+  <xs:complexType name="TrainingType">
+    <xs:sequence>
+      <xs:element name="metadata" type="MetadataType"/>
+      <xs:element name="sport" type="SportType"/>
+      <xs:element name="session" type="SessionType"/>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string" use="required"/>
+    <xs:attribute name="version" type="xs:string" use="optional"/>
+  </xs:complexType>
+
+  <xs:complexType name="MetadataType">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string" minOccurs="0"/>
+      <xs:element name="description" type="xs:string" minOccurs="0"/>
+      <xs:element name="athlete" type="xs:string" minOccurs="0"/>
+      <xs:element name="coach" type="xs:string" minOccurs="0"/>
+      <xs:element name="date" type="xs:date" minOccurs="0"/>
+      <xs:element name="created" type="xs:dateTime" minOccurs="0"/>
+      <xs:element name="tags" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="SportType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="swim"/>
+      <xs:enumeration value="run"/>
+      <xs:enumeration value="bike"/>
+      <xs:enumeration value="triathlon"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="SessionType">
+    <xs:sequence>
+      <xs:element name="phases" type="PhasesType"/>
+    </xs:sequence>
+    <xs:attribute name="durationSeconds" type="xs:decimal" use="optional"/>
+    <xs:attribute name="distanceMeters" type="xs:decimal" use="optional"/>
+    <xs:attribute name="tss" type="xs:decimal" use="optional"/>
+  </xs:complexType>
+
+  <xs:complexType name="PhasesType">
+    <xs:sequence>
+      <xs:element name="phase" type="PhaseType" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PhaseType">
+    <xs:sequence>
+      <xs:element name="blocks" type="BlocksType"/>
+    </xs:sequence>
+    <xs:attribute name="name" type="xs:string" use="required"/>
+    <xs:attribute name="order" type="xs:integer" use="optional"/>
+  </xs:complexType>
+
+  <xs:complexType name="BlocksType">
+    <xs:sequence>
+      <xs:element name="block" type="BlockType" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="BlockType">
+    <xs:sequence>
+      <xs:element name="work" type="WorkType" maxOccurs="unbounded"/>
+      <xs:element name="rest" type="RestType" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="type" type="BlockKindType" use="optional"/>
+    <xs:attribute name="repeat" type="xs:integer" use="optional" default="1"/>
+  </xs:complexType>
+
+  <xs:simpleType name="BlockKindType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="continuous"/>
+      <xs:enumeration value="interval"/>
+      <xs:enumeration value="set"/>
+      <xs:enumeration value="drill"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="WorkType">
+    <xs:sequence>
+      <xs:element name="metrics" type="MetricsType"/>
+      <xs:element name="equipment" type="EquipmentType" minOccurs="0"/>
+      <xs:element name="notes" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="name" type="xs:string" use="optional"/>
+    <xs:attribute name="stroke" type="xs:string" use="optional"/>
+  </xs:complexType>
+
+  <xs:complexType name="MetricsType">
+    <xs:attribute name="distanceMeters" type="xs:decimal" use="optional"/>
+    <xs:attribute name="durationSeconds" type="xs:decimal" use="optional"/>
+    <xs:attribute name="pacePer100m" type="xs:string" use="optional"/>
+    <xs:attribute name="pacePerKm" type="xs:string" use="optional"/>
+    <xs:attribute name="powerWatts" type="xs:integer" use="optional"/>
+    <xs:attribute name="powerPctFTP" type="xs:decimal" use="optional"/>
+    <xs:attribute name="hrBpm" type="xs:integer" use="optional"/>
+    <xs:attribute name="hrPctMax" type="xs:decimal" use="optional"/>
+    <xs:attribute name="rpe" type="xs:integer" use="optional"/>
+    <xs:attribute name="cadence" type="xs:integer" use="optional"/>
+  </xs:complexType>
+
+  <xs:complexType name="EquipmentType">
+    <xs:attribute name="paddles" type="xs:boolean" use="optional"/>
+    <xs:attribute name="fins" type="xs:boolean" use="optional"/>
+    <xs:attribute name="snorkel" type="xs:boolean" use="optional"/>
+    <xs:attribute name="pullbuoy" type="xs:boolean" use="optional"/>
+    <xs:attribute name="kickboard" type="xs:boolean" use="optional"/>
+    <xs:attribute name="bands" type="xs:boolean" use="optional"/>
+  </xs:complexType>
+
+  <xs:complexType name="RestType">
+    <xs:attribute name="durationSeconds" type="xs:decimal" use="optional"/>
+    <xs:attribute name="type" type="xs:string" use="optional"/>
+  </xs:complexType>
+
+</xs:schema>

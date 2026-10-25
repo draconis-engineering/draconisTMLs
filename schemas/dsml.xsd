@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="https://draconis.engineering/dtml/dsml"
+           xmlns="https://draconis.engineering/dtml/dsml"
+           elementFormDefault="qualified">
+
+  <xs:annotation>
+    <xs:documentation>
+      Draconis Swimming Markup Language (DSML) Schema
+      Version: 0.1.0
+    </xs:documentation>
+  </xs:annotation>
+
+  <!-- Root element -->
+  <xs:element name="swimsession" type="SwimSessionType"/>
+
+  <xs:complexType name="SwimSessionType">
+    <xs:sequence>
+      <xs:element name="metadata" type="MetadataType" minOccurs="0"/>
+      <xs:element name="config" type="ConfigType" minOccurs="0"/>
+      <xs:element name="presession" type="SessionPhaseType" minOccurs="0"/>
+      <xs:element name="warmup" type="SessionPhaseType" minOccurs="0"/>
+      <xs:element name="main" type="SessionPhaseType" minOccurs="1"/>
+      <xs:element name="cooldown" type="SessionPhaseType" minOccurs="0"/>
+      <xs:element name="postsession" type="SessionPhaseType" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string" use="required"/>
+    <xs:attribute name="name" type="xs:string" use="optional"/>
+    <xs:attribute name="date" type="xs:date" use="optional"/>
+    <xs:attribute name="version" type="xs:string" use="optional"/>
+  </xs:complexType>
+
+  <!-- Metadata -->
+  <xs:complexType name="MetadataType">
+    <xs:sequence>
+      <xs:element name="description" type="xs:string" minOccurs="0"/>
+      <xs:element name="athlete" type="xs:string" minOccurs="0"/>
+      <xs:element name="coach" type="xs:string" minOccurs="0"/>
+      <xs:element name="notes" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Configuration -->
+  <xs:complexType name="ConfigType">
+    <xs:sequence>
+      <xs:element name="pool" type="PoolType" minOccurs="0"/>
+      <xs:element name="gear" type="GearType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PoolType">
+    <xs:attribute name="lengthMeters" type="xs:decimal" use="optional"/>
+    <xs:attribute name="lengthYards" type="xs:decimal" use="optional"/>
+    <xs:attribute name="laneWidthMeters" type="xs:decimal" use="optional"/>
+    <xs:attribute name="depthMeters" type="xs:decimal" use="optional"/>
+    <xs:attribute name="indoor" type="xs:boolean" use="optional" default="true"/>
+  </xs:complexType>
+
+  <xs:complexType name="GearType">
+    <xs:attribute name="paddles" type="xs:boolean" use="optional" default="false"/>
+    <xs:attribute name="fins" type="xs:boolean" use="optional" default="false"/>
+    <xs:attribute name="snorkel" type="xs:boolean" use="optional" default="false"/>
+    <xs:attribute name="pullbuoy" type="xs:boolean" use="optional" default="false"/>
+    <xs:attribute name="kickboard" type="xs:boolean" use="optional" default="false"/>
+    <xs:attribute name="bands" type="xs:boolean" use="optional" default="false"/>
+  </xs:complexType>
+
+  <!-- Session Phase - contains activities -->
+  <xs:complexType name="SessionPhaseType" mixed="false">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="drillset" type="DrillSetType"/>
+      <xs:element name="repeat" type="RepeatType"/>
+      <xs:element name="freestyle" type="SwimStrokeType"/>
+      <xs:element name="backstroke" type="SwimStrokeType"/>
+      <xs:element name="breaststroke" type="SwimStrokeType"/>
+      <xs:element name="butterfly" type="SwimStrokeType"/>
+      <xs:element name="medley" type="MedleyType"/>
+      <xs:element name="drill" type="DrillType"/>
+      <xs:element name="swim" type="SwimStrokeType"/>
+      <xs:element name="rest" type="RestType"/>
+      <xs:element name="bandWork" type="BandWorkType"/>
+      <xs:element name="sauna" type="SaunaType"/>
+    </xs:choice>
+  </xs:complexType>
+
+  <xs:complexType name="DrillSetType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="drill" type="DrillType"/>
+      <xs:element name="freestyle" type="SwimStrokeType"/>
+      <xs:element name="backstroke" type="SwimStrokeType"/>
+      <xs:element name="breaststroke" type="SwimStrokeType"/>
+      <xs:element name="butterfly" type="SwimStrokeType"/>
+      <xs:element name="swim" type="SwimStrokeType"/>
+      <xs:element name="rest" type="RestType"/>
+      <xs:element name="superman" type="DrillType"/>
+    </xs:choice>
+  </xs:complexType>
+
+  <xs:complexType name="RepeatType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="drillset" type="DrillSetType"/>
+      <xs:element name="freestyle" type="SwimStrokeType"/>
+      <xs:element name="backstroke" type="SwimStrokeType"/>
+      <xs:element name="breaststroke" type="SwimStrokeType"/>
+      <xs:element name="butterfly" type="SwimStrokeType"/>
+      <xs:element name="medley" type="MedleyType"/>
+      <xs:element name="drill" type="DrillType"/>
+      <xs:element name="swim" type="SwimStrokeType"/>
+      <xs:element name="rest" type="RestType"/>
+    </xs:choice>
+    <xs:attribute name="count" type="xs:positiveInteger" use="optional" default="1"/>
+  </xs:complexType>
+
+  <xs:complexType name="SwimStrokeType">
+    <xs:attribute name="lengthMeters" type="xs:decimal" use="optional"/>
+    <xs:attribute name="lengthYards" type="xs:decimal" use="optional"/>
+    <xs:attribute name="durationSeconds" type="xs:decimal" use="optional"/>
+    <xs:attribute name="durationMinutes" type="xs:decimal" use="optional"/>
+    <xs:attribute name="RPE" type="RPEType" use="optional"/>
+    <xs:attribute name="pace" type="xs:string" use="optional"/>
+    <xs:attribute name="paddles" type="xs:boolean" use="optional"/>
+    <xs:attribute name="fins" type="xs:boolean" use="optional"/>
+    <xs:attribute name="snorkel" type="xs:boolean" use="optional"/>
+    <xs:attribute name="pullbuoy" type="xs:boolean" use="optional"/>
+    <xs:attribute name="notes" type="xs:string" use="optional"/>
+  </xs:complexType>
+
+  <xs:complexType name="DrillType">
+    <xs:attribute name="name" type="xs:string" use="optional"/>
+    <xs:attribute name="lengthMeters" type="xs:decimal" use="optional"/>
+    <xs:attribute name="lengthYards" type="xs:decimal" use="optional"/>
+    <xs:attribute name="durationSeconds" type="xs:decimal" use="optional"/>
+    <xs:attribute name="durationMinutes" type="xs:decimal" use="optional"/>
+    <xs:attribute name="RPE" type="RPEType" use="optional"/>
+    <xs:attribute name="notes" type="xs:string" use="optional"/>
+  </xs:complexType>
+
+  <xs:complexType name="MedleyType">
+    <xs:attribute name="lengthMeters" type="xs:decimal" use="optional"/>
+    <xs:attribute name="order" type="xs:string" use="optional"/>
+    <xs:attribute name="RPE" type="RPEType" use="optional"/>
+  </xs:complexType>
+
+  <xs:complexType name="RestType">
+    <xs:attribute name="lengthSeconds" type="xs:decimal" use="optional"/>
+    <xs:attribute name="lengthMinutes" type="xs:decimal" use="optional"/>
+    <xs:attribute name="notes" type="xs:string" use="optional"/>
+  </xs:complexType>
+
+  <xs:complexType name="BandWorkType">
+    <xs:attribute name="durationMinutes" type="xs:decimal" use="optional"/>
+    <xs:attribute name="durationSeconds" type="xs:decimal" use="optional"/>
+    <xs:attribute name="RPE" type="RPEType" use="optional"/>
+  </xs:complexType>
+
+  <xs:complexType name="SaunaType">
+    <xs:attribute name="durationMinutes" type="xs:decimal" use="optional"/>
+    <xs:attribute name="temperatureCelsius" type="xs:decimal" use="optional"/>
+  </xs:complexType>
+
+  <xs:simpleType name="RPEType">
+    <xs:restriction base="xs:integer">
+      <xs:minInclusive value="1"/>
+      <xs:maxInclusive value="10"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>
