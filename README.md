@@ -81,8 +81,8 @@ console.log(result.valid ? "Valid" : "Invalid");
 
 ## Contributing
 
-Contributions are welcome! See [CONTRIBUTING](.github/CODEOWNERS) for guidelines.
+Contributions are welcome! See [CONTRIBUTING](.github/CONTRIBUTING.md) for guidelines.
 
 ## License
 
-[MIT](LICENSE)
+Licensed under [MIT](LICENSE)
