@@ -1,0 +1,6 @@
+{
+  "name": "dtml-validator",
+  "bin": {
+    "dtml-validate": "./tools/validate.ts"
+  }
+}
