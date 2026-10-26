@@ -12,7 +12,8 @@
 		"forceConsistentCasingInFileNames": true,
 		"resolveJsonModule": true,
 		"moduleResolution": "node",
+		"types": ["node", "jest"]
 	},
-	"include": ["src/**/*", "parsers/**/*", "tools/**/*"],
-	"exclude": ["node_modules", "dist", "**/*.test.ts"],
+	"include": ["src/**/*", "parsers/**/*", "tools/**/*", "tests/**/*"],
+	"exclude": ["node_modules", "dist"]
 }
