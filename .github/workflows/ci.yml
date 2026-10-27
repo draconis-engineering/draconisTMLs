@@ -29,7 +29,10 @@ jobs:
           python -c "import xmlschema; [xmlschema.XMLSchema(f'schemas/{s}.xsd') for s in ['dsml','drml','dcml','dtir']]; print('schemas ok')"
       - name: Validate examples
         run: |
-          node -r ts-node/register/transpile-only validate.js src/dsml/example.dsml.xml
+          node -r ts-node/register/transpile-only tools/validate.ts examples/example.dsml.xml
+          node -r ts-node/register/transpile-only tools/validate.ts examples/example.drml.xml
+          node -r ts-node/register/transpile-only tools/validate.ts examples/example.dcml.xml
+          npx jest --maxWorkers=1 --no-coverage
   build:
     needs: validate
     runs-on: ubuntu-latest
