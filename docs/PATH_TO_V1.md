@@ -36,14 +36,14 @@ Tackle this in order to get the most utility with the least amount of rework:
 
 ### Phase A: Make Parsing/Serialization Useful (1-2 weeks)
 
-1. [ ] **Flesh out DSML parser first** - Implement a mapper from the parsed XML to `SwimSession` objects using the types we have. Handle attribute coercion, defaults, and nested structures (repeats/drillsets).
-2. [ ] **Add writers** - Create a `SwimWriter` that takes `SwimSession` objects and emits valid XML (ideally able to pass XSD validation). This proves our object model is correct.
-3. [ ] **Add round-trip tests** - `parse(example) -> write -> validate` should succeed. This is a great regression test.
+1. [x] **Flesh out DSML parser first** - Implement a mapper from the parsed XML to `SwimSession` objects using the types we have. Handle attribute coercion, defaults, and nested structures (repeats/drillsets).
+2. [x] **Add writers** - Create a `SwimWriter` that takes `SwimSession` objects and emits valid XML (ideally able to pass XSD validation). This proves our object model is correct.
+3. [x] **Add round-trip tests** - `parse(example) -> write -> validate` should succeed. This is a great regression test.
 
 ### Phase B: Normalize Everything (1-2 weeks)
 
-4. [ ] **Complete DTIR transformer** - Finish `runToDTIR` and `bikeToDTIR`. Define the normalization rules (e.g. all durations converted to seconds, all distances to meters) and ensure nothing is lost.
-5. [ ] **Add DRML/DCML examples + parsers** - Mirror Phase A for the other sports. This will stress test the schemas and types and likely reveal missing pieces.
+4. [x] **Complete DTIR transformer** - Finish `runToDTIR` and `bikeToDTIR`. Define the normalization rules (e.g. all durations converted to seconds, all distances to meters) and ensure nothing is lost.
+5. [x] **Add DRML/DCML examples + parsers** - Mirror Phase A for the other sports. This will stress test the schemas and types and likely reveal missing pieces.
 
 ### Phase C: Polish For Adoption (Ongoing)
 

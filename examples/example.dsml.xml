@@ -17,7 +17,7 @@
     </warmup>
 
     <main>
-        <repeat>
+        <repeat count="3">
             <freestyle lengthMeters="400" snorkel="true" RPE="5"/>
             <rest lengthMinutes="1"/>
         </repeat>

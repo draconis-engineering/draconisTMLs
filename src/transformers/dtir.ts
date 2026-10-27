@@ -83,6 +83,23 @@ export class DTIRTransformer {
 		return training;
 	}
 
+	private toSeconds(d: any): number | undefined {
+		if (!d) return undefined;
+		if (d.seconds !== undefined && d.seconds !== null) return Number(d.seconds);
+		if (d.minutes !== undefined && d.minutes !== null) return Number(d.minutes) * 60;
+		if (d.hours !== undefined && d.hours !== null) return Number(d.hours) * 3600;
+		return undefined;
+	}
+
+	private toMeters(dist: any): number | undefined {
+		if (!dist) return undefined;
+		if (dist.meters !== undefined && dist.meters !== null) return Number(dist.meters);
+		if (dist.kilometers !== undefined && dist.kilometers !== null) return Number(dist.kilometers) * 1000;
+		if (dist.miles !== undefined && dist.miles !== null) return Number(dist.miles) * 1609.344;
+		if (dist.yards !== undefined && dist.yards !== null) return Number(dist.yards) * 0.9144;
+		return undefined;
+	}
+
 	private runToDTIR(session: RunSession): DTIRTraining {
 		const training: DTIRTraining = {
 			id: session.metadata.id,
@@ -99,7 +116,75 @@ export class DTIRTransformer {
 				phases: session.phases.map((phase, idx) => ({
 					name: phase.name,
 					order: idx,
-					blocks: [],
+					blocks: phase.activities.map(act => {
+						if (act.type === 'repeats') {
+							const rep: any = act as any;
+							return {
+								type: 'set',
+								repeat: rep.count,
+								work: (rep.items || []).filter((i: any) => i && i.type !== 'rest').map((item: any) => ({
+									name: item.subtype || item.type,
+									metrics: {
+										distanceMeters: this.toMeters(item.distance),
+										durationSeconds: this.toSeconds(item.duration),
+										rpe: item.intensity?.rpe,
+									},
+								})),
+								rest: ((rep.items || []) as any[]).find((i: any) => i && i.type === 'rest') ? {
+									durationSeconds: this.toSeconds(((rep.items || []) as any[]).find((i: any) => i && i.type === 'rest')?.duration),
+								} : undefined,
+							};
+						}
+						if (act.type === 'intervals') {
+							const iv: any = act as any;
+							return {
+								type: 'set',
+								repeat: iv.repeats,
+								work: [{
+									name: iv.work?.subtype || 'work',
+									metrics: {
+										distanceMeters: this.toMeters(iv.work?.distance),
+										durationSeconds: this.toSeconds(iv.work?.duration),
+										rpe: iv.work?.intensity?.rpe,
+									},
+								}],
+								rest: {
+									durationSeconds: this.toSeconds(iv.rest?.duration),
+								},
+							};
+						}
+						if (act.type === 'run' || act.type === 'walk' || act.type === 'strides' || act.type === 'drills') {
+							return {
+								type: 'continuous',
+								repeat: 1,
+								work: [{
+									name: (act as any).subtype || act.type,
+									metrics: {
+										distanceMeters: this.toMeters((act as any).distance) || (act as any).distanceMeters,
+										durationSeconds: this.toSeconds((act as any).duration),
+										rpe: (act as any).intensity?.rpe,
+									},
+								}],
+							};
+						}
+						if (act.type === 'rest') {
+							return {
+								type: 'continuous',
+								repeat: 1,
+								work: [{
+									name: 'rest',
+									metrics: {
+										durationSeconds: this.toSeconds((act as any).duration),
+									},
+								}],
+							};
+						}
+						return {
+							type: 'continuous',
+							repeat: 1,
+							work: [{ name: (act as any).type, metrics: {} }],
+						};
+					}),
 				})),
 			},
 		};
@@ -122,7 +207,81 @@ export class DTIRTransformer {
 				phases: session.phases.map((phase, idx) => ({
 					name: phase.name,
 					order: idx,
-					blocks: [],
+					blocks: phase.activities.map(act => {
+						if (act.type === 'blocks') {
+							const blk: any = act as any;
+							// Flatten first level for simplicity
+							return {
+								type: 'set',
+								repeat: blk.repeats,
+								work: ((blk.items || []) as any[]).filter((i: any) => i && i.type !== 'rest').map((item: any) => {
+									if (item.type === 'intervals') {
+										return {
+											name: 'intervals',
+											metrics: {
+												durationSeconds: this.toSeconds(item.work?.duration),
+												power: item.work?.power,
+												ftpPct: item.work?.ftpPct,
+											},
+										};
+									}
+									if (item.type === 'ride') {
+										return {
+											name: item.subtype || 'ride',
+											metrics: {
+												durationSeconds: this.toSeconds(item.duration),
+												power: item.power,
+												ftpPct: item.ftpPct,
+												rpe: item.intensity?.rpe,
+											},
+										};
+									}
+									return { name: item.type, metrics: {} };
+								}),
+								rest: ((blk.items || []) as any[]).find((i: any) => i && i.type === 'rest') ? {
+									durationSeconds: this.toSeconds(((blk.items || []) as any[]).find((i: any) => i && i.type === 'rest')?.duration),
+								} : undefined,
+							};
+						}
+						if (act.type === 'intervals') {
+							const iv: any = act as any;
+							return {
+								type: 'set',
+								repeat: iv.repeats,
+								work: [{
+									name: 'work',
+									metrics: {
+										durationSeconds: this.toSeconds(iv.work?.duration),
+										power: iv.work?.power,
+										ftpPct: iv.work?.ftpPct,
+									},
+								}],
+								rest: {
+									durationSeconds: this.toSeconds(iv.rest?.duration),
+								},
+							};
+						}
+						if (act.type === 'ride' || act.type === 'rest') {
+							return {
+								type: 'continuous',
+								repeat: 1,
+								work: [{
+									name: act.type,
+									metrics: {
+										durationSeconds: this.toSeconds((act as any).duration),
+										power: (act as any).power,
+										ftpPct: (act as any).ftpPct,
+										rpe: (act as any).intensity?.rpe,
+									},
+								}],
+							};
+						}
+						return {
+							type: 'continuous',
+							repeat: 1,
+							work: [{ name: (act as any).type, metrics: {} }],
+						};
+					}),
 				})),
 			},
 		};

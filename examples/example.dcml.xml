@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bikesession id="dcml_0000" xmlns="https://draconis.engineering/dtml/dcml">
+    <config>
+        <trainer type="smart" resistanceMode="erg"/>
+        <bike ftp="250"/>
+    </config>
+
+    <warmup>
+        <warm durationMinutes="10" FTPpct="60"/>
+    </warmup>
+
+    <main>
+        <blocks repeats="3">
+            <intervals repeats="5">
+                <work durationMinutes="1" FTPpct="90"/>
+                <rest durationSeconds="30" FTPpct="55"/>
+            </intervals>
+            <rest durationMinutes="2" FTPpct="55"/>
+        </blocks>
+    </main>
+
+    <cooldown>
+        <easy durationMinutes="10" FTPpct="60"/>
+    </cooldown>
+</bikesession>

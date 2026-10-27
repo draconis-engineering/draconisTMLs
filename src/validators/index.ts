@@ -75,6 +75,10 @@ export class DTMLValidator {
 	validateXSD(filePath: string) {
 		return this.xsdValidator.validateFile(filePath);
 	}
+
+	validateXsd(filePath: string) {
+		return this.xsdValidator.validateFile(filePath);
+	}
 }
 
 export { XSDValidator } from './xsd';

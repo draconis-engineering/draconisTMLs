@@ -1,4 +1,32 @@
-<!-- Draconis Running Markup Language Example -->
-<xml>
+<?xml version="1.0" encoding="UTF-8"?>
+<runsession id="drml_0000" xmlns="https://draconis.engineering/dtml/drml">
+    <config>
+        <location type="road" surface="asphalt"/>
+        <gear shoes="pegasus" watch="true"/>
+    </config>
 
-</xml>
+    <presession>
+        <walk durationMinutes="5"/>
+    </presession>
+
+    <warmup>
+        <easy distanceKm="1"/>
+        <strides count="4" distanceMeters="100"/>
+    </warmup>
+
+    <main>
+        <repeats count="3">
+            <run distanceKm="1" RPE="7"/>
+            <rest durationSeconds="60" type="jog"/>
+        </repeats>
+        <tempo durationMinutes="10" RPE="8"/>
+    </main>
+
+    <cooldown>
+        <easy distanceKm="1"/>
+    </cooldown>
+
+    <postsession>
+        <drills name="leg swings" durationMinutes="5"/>
+    </postsession>
+</runsession>
