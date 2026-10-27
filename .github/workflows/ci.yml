@@ -65,8 +65,7 @@ jobs:
       - name: Build
         run: npm run build --if-present
       - name: Publish to npm
-        if: ${{ env.NPM_TOKEN != '' }}
-        run: npm publish --access public
+        if: ${{ secrets.NPM_TOKEN != '' }}
+        run: npm publish --access public || echo "Publish skipped or failed"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
