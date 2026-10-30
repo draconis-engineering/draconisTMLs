@@ -5,3 +5,4 @@ export * from './validators';
 export * from './transformers/dtir';
 export * from './writers';
 export * from './types';
+export * from './schemas/json';

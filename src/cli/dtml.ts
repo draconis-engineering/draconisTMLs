@@ -163,6 +163,28 @@ function main() {
 		}
 		console.log('Unsupported conversion');
 		process.exit(1);
+	} else if (cmd === 'to-json-schema' || cmd === 'schema') {
+		let type = 'dsml';
+		for (let i = 0; i < args.length; i++) {
+			if ((args[i] === '--type' || args[i] === '-t') && args[i + 1]) {
+				const t = args[i + 1];
+				if (t === 'drml' || t === 'dcml' || t === 'dtir') type = t as any;
+				else if (t === 'run') type = 'drml';
+				else if (t === 'bike') type = 'dcml';
+				else if (t === 'swim') type = 'dsml';
+				else type = t as any;
+			}
+		}
+		try {
+			const schemas = require('../schemas/json');
+			const getJsonSchema = schemas.getJsonSchema || (schemas.default && schemas.default.getJsonSchema);
+			if (getJsonSchema) {
+				console.log(JSON.stringify(getJsonSchema(type), null, 2));
+				process.exit(0);
+			}
+		} catch (e) {}
+		console.log('Schema not available');
+		process.exit(1);
 	} else {
 		usage();
 	}
