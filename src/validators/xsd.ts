@@ -41,10 +41,10 @@ export class XSDValidator {
 				fs.writeFileSync(tmpXml, xmlContent);
 				try {
 					execSync(`xmllint --noout --schema "${schemaPath}" "${tmpXml}"`, { stdio: 'pipe' });
-					try { fs.unlinkSync(tmpXml); } catch (e3) {}
+					try { fs.unlinkSync(tmpXml); } catch (e3) { }
 					return { valid: true, errors: [] };
 				} catch (err: any) {
-					try { fs.unlinkSync(tmpXml); } catch (e3) {}
+					try { fs.unlinkSync(tmpXml); } catch (e3) { }
 					if (err.stderr) {
 						errors.push(err.stderr.toString());
 					} else if (err.stdout) {

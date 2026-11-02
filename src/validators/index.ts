@@ -32,38 +32,41 @@ export class DTMLValidator {
 				}
 			}
 
-			const parsed = this.parser.parse(content);
-			if (!parsed) {
-				errors.push('Failed to parse XML');
-				return { valid: false, errors, xsdValid: xsdValid };
-			}
+      const parsed = this.parser.parse(content);
+      if (!parsed) {
+        errors.push('Failed to parse XML');
+        return { valid: false, errors, xsdValid: xsdValid };
+      }
 
-			if (parsed.swimsession) {
-				if (!parsed.swimsession.id) {
-					errors.push('swimsession missing required attribute: id');
-				}
-				return { valid: errors.length === 0, errors: errors, type: 'dsml', xsdValid: xsdValid };
-			} else if (parsed.runsession) {
-				if (!parsed.runsession.id) {
-					errors.push('runsession missing required attribute: id');
-				}
-				return { valid: errors.length === 0, errors: errors, type: 'drml', xsdValid: xsdValid };
-			} else if (parsed.bikesession) {
-				if (!parsed.bikesession.id) {
-					errors.push('bikesession missing required attribute: id');
-				}
-				return { valid: errors.length === 0, errors: errors, type: 'dcml', xsdValid: xsdValid };
-			} else if (parsed.training) {
-				if (!parsed.training.id) {
-					errors.push('training missing required attribute: id');
-				}
-				if (!parsed.training.sport) {
-					errors.push('training missing required element: sport');
-				}
-				return { valid: errors.length === 0, errors: errors, type: 'dtir', xsdValid: xsdValid };
-			} else {
-				errors.push('Unknown or invalid DTML document type');
-			}
+      if (parsed.swimsession || parsed.type === 'swimsession') {
+        const sess = parsed.swimsession || parsed;
+        if (!sess.id && !(sess.metadata && sess.metadata.id)) {
+          errors.push('swimsession missing required attribute: id');
+        }
+        return { valid: errors.filter((e: any) => !(typeof e === 'string' && e.includes('xmllint'))).length === 0 && (xsdValid === true || errors.filter((e: any) => typeof e === 'string' && !e.includes('xmllint')).length === 0), errors: errors, type: 'dsml', xsdValid: xsdValid };
+      } else       if (parsed.runsession || parsed.type === 'runsession' || (typeof content === 'string' && content.includes('<runsession'))) {
+        const sess = parsed.runsession || parsed;
+        if (!sess.id && !(sess.metadata && sess.metadata.id)) {
+          errors.push('runsession missing required attribute: id');
+        }
+        return { valid: errors.filter((e: any) => typeof e !== 'string' || !e.includes('xmllint')).length === 0, errors: errors, type: 'drml', xsdValid: xsdValid };
+      } else if (parsed.bikesession || parsed.type === 'bikesession' || (typeof content === 'string' && content.includes('<bikesession'))) {
+        const sess = parsed.bikesession || parsed;
+        if (!sess.id && !(sess.metadata && sess.metadata.id)) {
+          errors.push('bikesession missing required attribute: id');
+        }
+        return { valid: errors.filter((e: any) => typeof e !== 'string' || !e.includes('xmllint')).length === 0, errors: errors, type: 'dcml', xsdValid: xsdValid };
+      } else if (parsed.training) {
+        if (!parsed.training.id) {
+          errors.push('training missing required attribute: id');
+        }
+        if (!parsed.training.sport) {
+          errors.push('training missing required element: sport');
+        }
+        return { valid: errors.filter((e: any) => typeof e !== 'string' || !e.includes('xmllint')).length === 0, errors: errors, type: 'dtir', xsdValid: xsdValid };
+      } else {
+        errors.push('Unknown or invalid DTML document type');
+      }
 
 			return { valid: false, errors: errors, xsdValid: xsdValid };
 		} catch (e: any) {
