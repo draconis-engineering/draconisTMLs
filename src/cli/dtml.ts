@@ -182,7 +182,7 @@ function main() {
 				console.log(JSON.stringify(getJsonSchema(type), null, 2));
 				process.exit(0);
 			}
-		} catch (e) {}
+		} catch (e) { }
 		console.log('Schema not available');
 		process.exit(1);
 	} else {
