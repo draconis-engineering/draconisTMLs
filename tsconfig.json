@@ -1,19 +1,19 @@
 {
-	"compilerOptions": {
-		"target": "ES2020",
-		"module": "commonjs",
-		"lib": ["ES2020", "DOM"],
-		"outDir": "./dist",
-		"rootDir": "./",
-		"declaration": true,
-		"strict": false,
-		"esModuleInterop": true,
-		"skipLibCheck": true,
-		"forceConsistentCasingInFileNames": true,
-		"resolveJsonModule": true,
-		"moduleResolution": "node",
-		"types": ["node", "jest"]
-	},
-	"include": ["src/**/*", "parsers/**/*", "tools/**/*", "tests/**/*"],
-	"exclude": ["node_modules", "dist"]
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "commonjs",
+    "lib": ["ES2020", "DOM"],
+    "outDir": "./dist",
+    "rootDir": "./",
+    "declaration": true,
+    "strict": false,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "moduleResolution": "node",
+    "types": ["node", "jest"]
+  },
+  "include": ["src/**/*", "parsers/**/*", "tools/**/*", "tests/**/*"],
+  "exclude": ["node_modules", "dist"]
 }

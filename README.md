@@ -31,14 +31,14 @@ npx ts-node tools/validate.ts src/dsml/example.dsml.xml
 ### Using the API
 
 ```typescript
-import { DTMLParser, DTMLValidator, DTIRTransformer } from "@draconis/tmml";
+import { DTMLParser, DTMLValidator, DTIRTransformer } from '@draconis/tmml';
 
 const parser = new DTMLParser();
-const session = parser.parseFile("session.dsml.xml");
+const session = parser.parseFile('session.dsml.xml');
 
 const validator = new DTMLValidator();
-const result = validator.validateFile("session.dsml.xml");
-console.log(result.valid ? "Valid" : "Invalid");
+const result = validator.validateFile('session.dsml.xml');
+console.log(result.valid ? 'Valid' : 'Invalid');
 ```
 
 ## Features

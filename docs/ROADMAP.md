@@ -5,15 +5,15 @@
 - [x] Project structure and goals
 - [x] DSML example and basic structure
 - [ ] Complete syntax specification for all languages
-    - [x] DSML (swim) - Initial design
-    - [x] DRML (run) - Schema drafted
-    - [x] DCML (bike) - Schema drafted
-    - [x] DTIR (intermediate) - Schema drafted
+  - [x] DSML (swim) - Initial design
+  - [x] DRML (run) - Schema drafted
+  - [x] DCML (bike) - Schema drafted
+  - [x] DTIR (intermediate) - Schema drafted
 - [x] XSD Schemas
-    - [x] dsml.xsd
-    - [x] drml.xsd
-    - [x] dcml.xsd
-    - [x] dtir.xsd
+  - [x] dsml.xsd
+  - [x] drml.xsd
+  - [x] dcml.xsd
+  - [x] dtir.xsd
 
 ## Phase 1: Core Infrastructure
 

@@ -18,12 +18,12 @@ Draconis Training Markup Languages (DTMLs) are XML-based formats for describing 
 
 ## Overview
 
-| Language | Root Element | File Extension | Purpose |
-| --- | --- | --- | --- |
-| DSML | `<swimsession>` | `.dsml.xml` | Swimming sessions |
-| DRML | `<runsession>` | `.drml.xml` | Running sessions |
-| DCML | `<bikesession>` | `.dcml.xml` | Cycling sessions |
-| DTIR | `<training>` | `.dtir.xml` | Normalized format for all sports |
+| Language | Root Element    | File Extension | Purpose                          |
+| -------- | --------------- | -------------- | -------------------------------- |
+| DSML     | `<swimsession>` | `.dsml.xml`    | Swimming sessions                |
+| DRML     | `<runsession>`  | `.drml.xml`    | Running sessions                 |
+| DCML     | `<bikesession>` | `.dcml.xml`    | Cycling sessions                 |
+| DTIR     | `<training>`    | `.dtir.xml`    | Normalized format for all sports |
 
 All schemas are defined in the [schemas/](../schemas/) directory using XML Schema (XSD).
 
@@ -34,7 +34,7 @@ All schemas are defined in the [schemas/](../schemas/) directory using XML Schem
 All sport sessions follow a consistent phase structure:
 
 1. **`<presession>`** (optional) - Pre-session activities
-2. **`<warmup>`** (optional) - Warm-up activities  
+2. **`<warmup>`** (optional) - Warm-up activities
 3. **`<main>`** (required) - Main set/workout
 4. **`<cooldown>`** (optional) - Cool-down activities
 5. **`<postsession>`** (optional) - Post-session activities
@@ -75,11 +75,11 @@ Namespace: `https://draconis.engineering/dtml/dsml`
 
 ### Stroke Elements
 
-| Element | Description | Common Attributes |
-| --- | --- | --- |
-| `<freestyle>`, `<backstroke>`, `<breaststroke>`, `<butterfly>` | Specific strokes | `lengthMeters`, `lengthYards`, `durationSeconds`, `durationMinutes`, `RPE`, `pace`, equipment flags, `notes` |
-| `<swim>` | Generic swim (defaults to freestyle) | Same as above |
-| `<medley>` | Medley swim | `lengthMeters`, `order`, `RPE` |
+| Element                                                        | Description                          | Common Attributes                                                                                            |
+| -------------------------------------------------------------- | ------------------------------------ | ------------------------------------------------------------------------------------------------------------ |
+| `<freestyle>`, `<backstroke>`, `<breaststroke>`, `<butterfly>` | Specific strokes                     | `lengthMeters`, `lengthYards`, `durationSeconds`, `durationMinutes`, `RPE`, `pace`, equipment flags, `notes` |
+| `<swim>`                                                       | Generic swim (defaults to freestyle) | Same as above                                                                                                |
+| `<medley>`                                                     | Medley swim                          | `lengthMeters`, `order`, `RPE`                                                                               |
 
 ### Drills
 
@@ -90,10 +90,10 @@ Namespace: `https://draconis.engineering/dtml/dsml`
 </drillset>
 ```
 
-| Element | Description | Attributes |
-| --- | --- | --- |
-| `<drill>` | Drill with optional name | `name`, `lengthMeters`, `lengthYards`, `durationSeconds`, `durationMinutes`, `RPE`, `notes` |
-| `<superman>` | Superman drill (shortcut) | Same as drill |
+| Element      | Description               | Attributes                                                                                  |
+| ------------ | ------------------------- | ------------------------------------------------------------------------------------------- |
+| `<drill>`    | Drill with optional name  | `name`, `lengthMeters`, `lengthYards`, `durationSeconds`, `durationMinutes`, `RPE`, `notes` |
+| `<superman>` | Superman drill (shortcut) | Same as drill                                                                               |
 
 ### Repeats
 
@@ -108,11 +108,11 @@ Repeats can contain: `drillset`, strokes, `medley`, `drill`, `swim`, `rest`
 
 ### Other Elements
 
-| Element | Description | Attributes |
-| --- | --- | --- |
-| `<rest>` | Rest period | `lengthSeconds`, `lengthMinutes`, `lengthHours`, `notes` |
-| `<bandWork>` | Band work | `durationMinutes`, `durationSeconds`, `RPE` |
-| `<sauna>` | Sauna session | `durationMinutes`, `temperatureCelsius` |
+| Element      | Description   | Attributes                                               |
+| ------------ | ------------- | -------------------------------------------------------- |
+| `<rest>`     | Rest period   | `lengthSeconds`, `lengthMinutes`, `lengthHours`, `notes` |
+| `<bandWork>` | Band work     | `durationMinutes`, `durationSeconds`, `RPE`              |
+| `<sauna>`    | Sauna session | `durationMinutes`, `temperatureCelsius`                  |
 
 ### Complete Example
 
@@ -161,15 +161,15 @@ Namespace: `https://draconis.engineering/dtml/drml`
 
 ### Run Elements
 
-| Element | Description | Attributes |
-| --- | --- | --- |
-| `<run>` | Generic run | `distanceKm`, `distanceMiles`, `durationMinutes`, `durationSeconds`, `pace`, `HR`, `RPE`, `notes` |
-| `<easy>` | Easy pace run | Same as run |
-| `<tempo>` | Tempo run | Same as run |
-| `<threshold>` | Threshold run | Same as run |
-| `<walk>` | Walking | `distanceKm`, `durationMinutes` |
-| `<strides>` | Strides | `count`, `distanceMeters`, `RPE` |
-| `<drills>` | Running drills | `name`, `durationMinutes`, `notes` |
+| Element       | Description    | Attributes                                                                                        |
+| ------------- | -------------- | ------------------------------------------------------------------------------------------------- |
+| `<run>`       | Generic run    | `distanceKm`, `distanceMiles`, `durationMinutes`, `durationSeconds`, `pace`, `HR`, `RPE`, `notes` |
+| `<easy>`      | Easy pace run  | Same as run                                                                                       |
+| `<tempo>`     | Tempo run      | Same as run                                                                                       |
+| `<threshold>` | Threshold run  | Same as run                                                                                       |
+| `<walk>`      | Walking        | `distanceKm`, `durationMinutes`                                                                   |
+| `<strides>`   | Strides        | `count`, `distanceMeters`, `RPE`                                                                  |
+| `<drills>`    | Running drills | `name`, `durationMinutes`, `notes`                                                                |
 
 ### Intervals
 
@@ -237,10 +237,10 @@ Namespace: `https://draconis.engineering/dtml/dcml`
 
 ### Ride Elements
 
-| Element | Description | Attributes |
-| --- | --- | --- |
-| `<ride>` | Generic ride | `distanceKm`, `durationMinutes`, `durationSeconds`, `power`, `cadence`, `FTPpct`, `RPE`, `HR`, `notes` |
-| `<warm>`, `<easy>`, `<steady>`, `<threshold>`, `<sweetspot>`, `<vo2>` | Ride with specific intensity | Same as ride |
+| Element                                                               | Description                  | Attributes                                                                                             |
+| --------------------------------------------------------------------- | ---------------------------- | ------------------------------------------------------------------------------------------------------ |
+| `<ride>`                                                              | Generic ride                 | `distanceKm`, `durationMinutes`, `durationSeconds`, `power`, `cadence`, `FTPpct`, `RPE`, `HR`, `notes` |
+| `<warm>`, `<easy>`, `<steady>`, `<threshold>`, `<sweetspot>`, `<vo2>` | Ride with specific intensity | Same as ride                                                                                           |
 
 ### Intervals
 
@@ -339,20 +339,23 @@ DTIR is a normalized, sport-agnostic representation. All durations are normalize
 ## Validation
 
 ### Using CLI
+
 ```bash
 dtml validate examples/example.dsml.xml
 dtml check examples/example.drml.xml
 ```
 
 ### Using API
+
 ```typescript
-import { DTMLValidator } from "@draconis/tmml";
+import { DTMLValidator } from '@draconis/tmml';
 const validator = new DTMLValidator();
-const result = validator.validateFile("session.dsml.xml");
+const result = validator.validateFile('session.dsml.xml');
 console.log(result.valid);
 ```
 
 ### XSD Validation
+
 All files can be validated against XSD schemas in `schemas/` using tools like `xmllint`, `libxmljs2`, or `xmlschema`.
 
 ## Tools & CLI
@@ -377,15 +380,21 @@ dtml format <file>          # Normalize/pretty print XML in place
 ### Programmatic API
 
 ```typescript
-import { DTMLParser, DTMLValidator, DTIRTransformer, DSMLParser, DSMLWriter } from "@draconis/tmml";
+import {
+  DTMLParser,
+  DTMLValidator,
+  DTIRTransformer,
+  DSMLParser,
+  DSMLWriter,
+} from '@draconis/tmml';
 
 // Parse
 const parser = new DSMLParser();
-const session = parser.parseFile("session.dsml.xml");
+const session = parser.parseFile('session.dsml.xml');
 
 // Validate
 const validator = new DTMLValidator();
-const result = validator.validateFile("session.dsml.xml");
+const result = validator.validateFile('session.dsml.xml');
 
 // Write/Round-trip
 const writer = new DSMLWriter();
