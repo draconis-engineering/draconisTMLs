@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xs:schema
-	xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	targetNamespace="https://draconis.engineering/dtml/dcml"
-	xmlns="https://draconis.engineering/dtml/dcml"
-	elementFormDefault="qualified"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="https://draconis.engineering/dtml/dcml"
+    xmlns="https://draconis.engineering/dtml/dcml"
+    elementFormDefault="qualified"
 >
 
   <xs:annotation>
@@ -50,10 +50,10 @@
   <xs:complexType name="TrainerType">
     <xs:attribute name="type" type="TrainerKindType" use="optional" />
     <xs:attribute
-			name="resistanceMode"
-			type="ResistanceModeType"
-			use="optional"
-		/>
+            name="resistanceMode"
+            type="ResistanceModeType"
+            use="optional"
+        />
   </xs:complexType>
 
   <xs:simpleType name="TrainerKindType">
@@ -113,11 +113,11 @@
       <xs:element name="rest" type="RestType" minOccurs="1" />
     </xs:sequence>
     <xs:attribute
-			name="repeats"
-			type="xs:positiveInteger"
-			use="optional"
-			default="1"
-		/>
+            name="repeats"
+            type="xs:positiveInteger"
+            use="optional"
+            default="1"
+        />
     <xs:attribute name="on" type="xs:string" use="optional" />
     <xs:attribute name="off" type="xs:string" use="optional" />
   </xs:complexType>
@@ -138,11 +138,11 @@
       <xs:element name="rest" type="RestType" />
     </xs:choice>
     <xs:attribute
-			name="repeats"
-			type="xs:positiveInteger"
-			use="optional"
-			default="1"
-		/>
+            name="repeats"
+            type="xs:positiveInteger"
+            use="optional"
+            default="1"
+        />
   </xs:complexType>
 
   <xs:complexType name="RestType">

@@ -1,16 +1,27 @@
 import { SessionMetadata } from './common';
 
+export interface DTIRMetadata extends SessionMetadata {
+    author?: string;
+    created?: string;
+    modified?: string;
+}
+
 export interface DTIRMetrics {
     distanceMeters?: number;
     durationSeconds?: number;
     pacePer100m?: string;
     pacePerKm?: string;
     powerWatts?: number;
+    power?: number;
     powerPctFTP?: number;
+    ftpPct?: number;
     hrBpm?: number;
     hrPctMax?: number;
     rpe?: number;
+    percentEffort?: number;
+    zone?: number;
     cadence?: number;
+    targetPace?: string;
 }
 
 export interface DTIREquipment {
@@ -58,7 +69,7 @@ export interface DTIRSession {
 export interface DTIRTraining {
     id: string;
     version?: string;
-    metadata: SessionMetadata;
+    metadata: DTIRMetadata;
     sport: 'swim' | 'run' | 'bike' | 'triathlon';
     session: DTIRSession;
 }

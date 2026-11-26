@@ -22,6 +22,9 @@ export class DTIRTransformer {
                 id: session.metadata.id,
                 name: session.metadata.name,
                 description: session.metadata.description,
+                author: (session.metadata as any).author,
+                created: (session.metadata as any).created,
+                modified: (session.metadata as any).modified,
                 athlete: session.metadata.athlete,
                 coach: session.metadata.coach,
                 date: session.metadata.date,
@@ -31,83 +34,7 @@ export class DTIRTransformer {
                 phases: session.phases.map((phase, idx) => ({
                     name: phase.name,
                     order: idx,
-                    blocks: phase.activities.map((act) => {
-                        if (act.type === 'repeat') {
-                            return {
-                                type: 'set',
-                                repeat: act.count,
-                                work: act.items
-                                    .filter(
-                                        (i) =>
-                                            i.type === 'stroke' ||
-                                            i.type === 'drill',
-                                    )
-                                    .map((item: any) => ({
-                                        name: item.name || item.stroke,
-                                        stroke: item.stroke,
-                                        metrics: {
-                                            distanceMeters:
-                                                item.distance?.meters,
-                                            durationSeconds:
-                                                item.duration?.seconds ||
-                                                (item.duration?.minutes
-                                                    ? item.duration.minutes * 60
-                                                    : undefined),
-                                            rpe: item.intensity?.rpe,
-                                        },
-                                        equipment: item.equipment || {},
-                                    })),
-                                rest: act.items.find((i) => i.type === 'rest')
-                                    ? {
-                                          durationSeconds:
-                                              (
-                                                  act.items.find(
-                                                      (i) => i.type === 'rest',
-                                                  ) as any
-                                              )?.duration?.seconds ||
-                                              (
-                                                  act.items.find(
-                                                      (i) => i.type === 'rest',
-                                                  ) as any
-                                              )?.duration?.minutes * 60,
-                                      }
-                                    : undefined,
-                            };
-                        }
-                        if (act.type === 'stroke') {
-                            return {
-                                type: 'continuous',
-                                repeat: 1,
-                                work: [
-                                    {
-                                        name: act.stroke,
-                                        stroke: act.stroke,
-                                        metrics: {
-                                            distanceMeters:
-                                                act.distance?.meters,
-                                            durationSeconds:
-                                                act.duration?.seconds ||
-                                                (act.duration?.minutes
-                                                    ? act.duration.minutes * 60
-                                                    : undefined),
-                                            rpe: act.intensity?.rpe,
-                                        },
-                                        equipment: act.equipment || {},
-                                    },
-                                ],
-                            };
-                        }
-                        return {
-                            type: 'continuous',
-                            repeat: 1,
-                            work: [
-                                {
-                                    name: act.type,
-                                    metrics: {},
-                                },
-                            ],
-                        };
-                    }),
+                    blocks: phase.activities.map((act) => this.swimActivityToBlock(act)),
                 })),
             },
         };
@@ -123,6 +50,58 @@ export class DTIRTransformer {
         if (d.hours !== undefined && d.hours !== null)
             return Number(d.hours) * 3600;
         return undefined;
+    }
+
+    private swimActivityToStep(act: any): any {
+        const metrics: any = {};
+        const dur = this.toSeconds(act.duration);
+        const dist = this.toMeters(act.distance);
+        if (dist !== undefined) metrics.distanceMeters = dist;
+        if (dur !== undefined) metrics.durationSeconds = dur;
+        if (act.intensity?.rpe !== undefined) metrics.rpe = act.intensity.rpe;
+        if (act.intensity?.percentEffort !== undefined) metrics.percentEffort = act.intensity.percentEffort;
+        if (act.intensity?.zone !== undefined) metrics.zone = act.intensity.zone;
+        if (act.targetPace) metrics.targetPace = act.targetPace;
+        const step: any = { name: act.name || act.stroke || act.type, metrics };
+        if (act.stroke) step.stroke = act.stroke;
+        if (act.equipment && Object.keys(act.equipment).length) step.equipment = act.equipment;
+        if (act.notes) step.notes = act.notes;
+        return step;
+    }
+
+    private swimActivityToBlock(act: any): any {
+        if (act.type === 'repeat') {
+            const items = act.items || [];
+            const restItem = items.find((i: any) => i.type === 'rest');
+            const workItems = items.filter((i: any) => i.type !== 'rest');
+            const block: any = {
+                type: 'set',
+                repeat: act.count || 1,
+                work: workItems.flatMap((i: any) => this.swimActivityToWork(i)),
+            };
+            if (restItem) block.rest = { durationSeconds: this.toSeconds(restItem.duration) };
+            return block;
+        }
+        if (act.type === 'drillset') {
+            const items = act.items || [];
+            return {
+                type: 'continuous',
+                repeat: 1,
+                work: items.flatMap((i: any) => this.swimActivityToWork(i)),
+            };
+        }
+        if (act.type === 'rest') {
+            return { type: 'continuous', repeat: 1, work: [{ name: 'rest', metrics: { durationSeconds: this.toSeconds(act.duration) } }] };
+        }
+        return { type: 'continuous', repeat: 1, work: this.swimActivityToWork(act) };
+    }
+
+    private swimActivityToWork(act: any): any[] {
+        if (!act) return [];
+        if (act.type === 'drillset') return (act.items || []).flatMap((i: any) => this.swimActivityToWork(i));
+        if (act.type === 'repeat') return [this.swimActivityToStep({ ...act, name: act.name || 'repeat' })];
+        if (act.type === 'rest') return [{ name: 'rest', metrics: { durationSeconds: this.toSeconds(act.duration) } }];
+        return [this.swimActivityToStep(act)];
     }
 
     private toMeters(dist: any): number | undefined {
@@ -145,6 +124,9 @@ export class DTIRTransformer {
                 id: session.metadata.id,
                 name: session.metadata.name,
                 description: session.metadata.description,
+                author: (session.metadata as any).author,
+                created: (session.metadata as any).created,
+                modified: (session.metadata as any).modified,
                 athlete: session.metadata.athlete,
                 coach: session.metadata.coach,
                 date: session.metadata.date,
@@ -276,6 +258,9 @@ export class DTIRTransformer {
                 id: session.metadata.id,
                 name: session.metadata.name,
                 description: session.metadata.description,
+                author: (session.metadata as any).author,
+                created: (session.metadata as any).created,
+                modified: (session.metadata as any).modified,
                 athlete: session.metadata.athlete,
                 coach: session.metadata.coach,
                 date: session.metadata.date,

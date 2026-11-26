@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xs:schema
-	xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	targetNamespace="https://draconis.engineering/dtml/dtir"
-	xmlns="https://draconis.engineering/dtml/dtir"
-	xmlns:dt="https://draconis.engineering/dtml/core"
-	elementFormDefault="qualified"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="https://draconis.engineering/dtml/dtir"
+    xmlns="https://draconis.engineering/dtml/dtir"
+    xmlns:dt="https://draconis.engineering/dtml/core"
+    elementFormDefault="qualified"
 >
 
   <xs:annotation>

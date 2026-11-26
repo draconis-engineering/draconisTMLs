@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xs:schema
-	xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	targetNamespace="https://draconis.engineering/dtml/drml"
-	xmlns="https://draconis.engineering/dtml/drml"
-	elementFormDefault="qualified"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="https://draconis.engineering/dtml/drml"
+    xmlns="https://draconis.engineering/dtml/drml"
+    elementFormDefault="qualified"
 >
 
   <xs:annotation>
@@ -112,11 +112,11 @@
       <xs:element name="rest" type="RestType" minOccurs="1" />
     </xs:sequence>
     <xs:attribute
-			name="repeats"
-			type="xs:positiveInteger"
-			use="optional"
-			default="1"
-		/>
+            name="repeats"
+            type="xs:positiveInteger"
+            use="optional"
+            default="1"
+        />
   </xs:complexType>
 
   <xs:complexType name="IntervalWorkType">
@@ -135,22 +135,22 @@
       <xs:element name="rest" type="RestType" />
     </xs:choice>
     <xs:attribute
-			name="count"
-			type="xs:positiveInteger"
-			use="optional"
-			default="1"
-		/>
+            name="count"
+            type="xs:positiveInteger"
+            use="optional"
+            default="1"
+        />
   </xs:complexType>
 
   <xs:complexType name="RestType">
     <xs:attribute name="durationMinutes" type="xs:decimal" use="optional" />
     <xs:attribute name="durationSeconds" type="xs:decimal" use="optional" />
     <xs:attribute
-			name="type"
-			type="RestKindType"
-			use="optional"
-			default="static"
-		/>
+            name="type"
+            type="RestKindType"
+            use="optional"
+            default="static"
+        />
   </xs:complexType>
 
   <xs:simpleType name="RestKindType">

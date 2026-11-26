@@ -66,7 +66,7 @@ export interface RunIntervals {
 export interface Repeats {
     type: 'repeats';
     count: number;
-    items: (Run | RunIntervals | RunRest)[];
+    items: RunActivity[];
 }
 
 export type RunActivity =

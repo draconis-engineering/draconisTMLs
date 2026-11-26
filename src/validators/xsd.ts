@@ -130,59 +130,29 @@ export class XSDValidator {
         }
     }
 
-    validateFile(filePath: string): {
-        valid: boolean;
-        errors: string[];
-        type?: string;
-    } {
+    validateFile(filePath: string): { valid: boolean; errors: string[]; type?: string } {
         try {
             if (!fs.existsSync(filePath)) {
-                return {
-                    valid: false,
-                    errors: [`File not found: ${filePath}`],
-                };
+                return { valid: false, errors: ['File not found: ' + filePath] };
             }
-
             const content = fs.readFileSync(filePath, 'utf-8');
             const fileName = path.basename(filePath).toLowerCase();
-
-            if (fileName.includes('.dsml.') || fileName.includes('dsml')) {
-                return { ...this.validate(content, 'dsml'), type: 'dsml' };
-            } else if (
-                fileName.includes('.drml.') ||
-                fileName.includes('drml')
-            ) {
-                return { ...this.validate(content, 'drml'), type: 'drml' };
-            } else if (
-                fileName.includes('.dcml.') ||
-                fileName.includes('dcml')
-            ) {
-                return { ...this.validate(content, 'dcml'), type: 'dcml' };
-            } else if (
-                fileName.includes('.dtir.') ||
-                fileName.includes('dtir')
-            ) {
-                return { ...this.validate(content, 'dtir'), type: 'dtir' };
-            } else {
-                // try to sniff content
-                if (content.includes('<swimsession')) {
-                    return { ...this.validate(content, 'dsml'), type: 'dsml' };
-                } else if (content.includes('<runsession')) {
-                    return { ...this.validate(content, 'drml'), type: 'drml' };
-                } else if (content.includes('<bikesession')) {
-                    return { ...this.validate(content, 'dcml'), type: 'dcml' };
-                } else if (content.includes('<training')) {
-                    return { ...this.validate(content, 'dtir'), type: 'dtir' };
-                }
-                return {
-                    valid: false,
-                    errors: ['Could not determine schema type from filename'],
-                };
-            }
+            let type: any = null;
+            if (fileName.includes('.dsml.')) type = 'dsml';
+            else if (fileName.includes('.drml.')) type = 'drml';
+            else if (fileName.includes('.dcml.')) type = 'dcml';
+            else if (fileName.includes('.dtir.')) type = 'dtir';
+            else if (content.includes('<swimsession')) type = 'dsml';
+            else if (content.includes('<runsession')) type = 'drml';
+            else if (content.includes('<bikesession')) type = 'dcml';
+            else if (content.includes('<training')) type = 'dtir';
+            if (!type) return { valid: false, errors: ['Could not determine schema type from filename'] };
+            return { ...this.validate(content, type), type };
         } catch (e: any) {
-            return { valid: false, errors: [`Error: ${e.message}`] };
+            return { valid: false, errors: ['Error: ' + e.message] };
         }
     }
+
 }
 
 export default XSDValidator;

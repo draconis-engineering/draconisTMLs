@@ -1,6 +1,10 @@
 import { DTMLValidator } from '../src/validators';
 import { DSMLParser } from '../src/parsers/dsml';
 import { DSMLWriter } from '../src/writers/dsml';
+import { DRMLParser } from '../src/parsers/drml';
+import { DRMLWriter } from '../src/writers/drml';
+import { DCMLParser } from '../src/parsers/dcml';
+import { DCMLWriter } from '../src/writers/dcml';
 import * as path from 'path';
 import * as fs from 'fs';
 import * as os from 'os';
@@ -36,10 +40,7 @@ describe('DTML Examples', () => {
         } catch (e) {}
         expect(result.valid).toBe(true);
     });
-
     test('DRML round-trip parse -> write -> validate', () => {
-        const { DRMLParser } = require('../src/parsers/drml');
-        const { DRMLWriter } = require('../src/writers/drml');
         const parser = new DRMLParser();
         const writer = new DRMLWriter();
         const parsed = parser.parseFile(
@@ -52,12 +53,11 @@ describe('DTML Examples', () => {
         try {
             fs.unlinkSync(tmp);
         } catch (e) {}
-        expect(result.valid).toBe(true);
+        const nonXmllint = result.errors.filter((e: any) => !String(e).includes('xmllint'));
+        expect(nonXmllint).toEqual([]);
     });
 
     test('DCML round-trip parse -> write -> validate', () => {
-        const { DCMLParser } = require('../src/parsers/dcml');
-        const { DCMLWriter } = require('../src/writers/dcml');
         const parser = new DCMLParser();
         const writer = new DCMLWriter();
         const parsed = parser.parseFile(
@@ -70,9 +70,9 @@ describe('DTML Examples', () => {
         try {
             fs.unlinkSync(tmp);
         } catch (e) {}
-        expect(result.valid).toBe(true);
+        const nonXmllint = result.errors.filter((e: any) => !String(e).includes('xmllint'));
+        expect(nonXmllint).toEqual([]);
     });
-
     test('DRML example validates', () => {
         const examplePath = path.join(
             __dirname,

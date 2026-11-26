@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<training xmlns="https://draconis.engineering/dtml/dtir" id="dsml_0000">
+  <metadata>
+  </metadata>
+  <sport>swim</sport>
+  <session>
+    <phases>
+      <phase name="presession" order="0">
+        <blocks>
+          <block type="continuous" repeat="1">
+            <work name="bandwork">
+              <metrics/>
+            </work>
+          </block>
+        </blocks>
+      </phase>
+      <phase name="warmup" order="1">
+        <blocks>
+          <block type="continuous" repeat="1">
+            <work name="drillset">
+              <metrics/>
+            </work>
+          </block>
+        </blocks>
+      </phase>
+      <phase name="main" order="2">
+        <blocks>
+          <block type="set" repeat="3">
+            <work name="freestyle" stroke="freestyle">
+              <metrics distanceMeters="400" rpe="5"/>
+              <equipment snorkel="true"/>
+            </work>
+            <rest durationSeconds="60"/>
+          </block>
+          <block type="set" repeat="5">
+            <work name="freestyle" stroke="freestyle">
+              <metrics distanceMeters="200" rpe="8"/>
+            </work>
+            <rest durationSeconds="30"/>
+          </block>
+        </blocks>
+      </phase>
+      <phase name="cooldown" order="3">
+        <blocks>
+          <block type="continuous" repeat="1">
+            <work name="freestyle" stroke="freestyle">
+              <metrics distanceMeters="200"/>
+              <equipment paddles="true" fins="true" snorkel="true"/>
+            </work>
+          </block>
+        </blocks>
+      </phase>
+      <phase name="postsession" order="4">
+        <blocks>
+          <block type="continuous" repeat="1">
+            <work name="sauna">
+              <metrics/>
+            </work>
+          </block>
+        </blocks>
+      </phase>
+    </phases>
+  </session>
+</training>

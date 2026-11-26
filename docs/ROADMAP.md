@@ -21,9 +21,9 @@
 - [x] Basic parser implementation
 - [x] Basic validator implementation
 - [x] DTIR transformer foundation
-- [ ] Complete parser for all languages (DSML, DRML, DCML)
-- [ ] Full validation against XSD schemas (using libxmljs2)
-- [ ] XML writers/serializers
+- [x] Complete parser for all languages (DSML, DRML, DCML)
+- [x] Full validation against XSD schemas (python xmlschema fallback; libxmljs2 optional)
+- [x] XML writers/serializers
 
 ## Phase 2: Transformation & Integration
 

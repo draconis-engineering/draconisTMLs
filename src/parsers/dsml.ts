@@ -43,8 +43,8 @@ export class DSMLParser {
 
     private mapDuration(attrs: any) {
         const dur: any = {};
-        const s = this.toNum(attrs.durationSeconds || attrs.seconds);
-        const m = this.toNum(attrs.durationMinutes || attrs.minutes);
+        const s = this.toNum(attrs.durationSeconds ?? attrs.lengthSeconds ?? attrs.seconds);
+        const m = this.toNum(attrs.durationMinutes ?? attrs.lengthMinutes ?? attrs.minutes);
         if (s !== undefined) dur.seconds = s;
         if (m !== undefined) dur.minutes = m;
         if (dur.seconds === undefined && dur.minutes !== undefined)
@@ -89,6 +89,27 @@ export class DSMLParser {
         return Object.keys(eq).length ? eq : undefined;
     }
 
+    private mapActivitiesFromObject(obj: any): SwimActivity[] {
+        const out: SwimActivity[] = [];
+        if (!obj || typeof obj !== 'object') return out;
+        const keys = Object.keys(obj);
+        for (let i = 0; i < keys.length; i++) {
+            const k = keys[i];
+            if (k === '#text' || k === 'count') continue;
+            const val = obj[k];
+            if (Array.isArray(val)) {
+                for (let j = 0; j < val.length; j++) {
+                    const a = this.mapActivity({ [k]: val[j] });
+                    if (a) out.push(a);
+                }
+            } else {
+                const a = this.mapActivity({ [k]: val });
+                if (a) out.push(a);
+            }
+        }
+        return out;
+    }
+
     private mapActivity(item: any): SwimActivity | null {
         if (!item) return null;
         const keys = Object.keys(item);
@@ -129,36 +150,23 @@ export class DSMLParser {
                 };
             } else if (k === 'repeat') {
                 const count = this.toNum(attrs.count) || 1;
-                const items = Array.isArray(val) ? val : [val];
                 const mapped: any[] = [];
-                for (let j = 0; j < items.length; j++) {
-                    const a = this.mapActivity(items[j]);
-                    if (a) mapped.push(a);
-                }
-                // also look for direct children
-                if (mapped.length === 0 && typeof val === 'object') {
-                    const mk = Object.keys(val);
-                    for (let j = 0; j < mk.length; j++) {
-                        if (mk[j] === '#text' || mk[j] === 'count') continue;
-                        const ma = this.mapActivity({ [mk[j]]: val[mk[j]] });
-                        if (ma) mapped.push(ma);
+                if (Array.isArray(val)) {
+                    for (let j = 0; j < val.length; j++) {
+                        mapped.push(...this.mapActivitiesFromObject(val[j]));
                     }
+                } else if (typeof val === 'object') {
+                    mapped.push(...this.mapActivitiesFromObject(val));
                 }
                 return { type: 'repeat', count: count, items: mapped };
             } else if (k === 'drillset') {
-                const items = Array.isArray(val) ? val : [val];
                 const mapped: any[] = [];
-                for (let j = 0; j < items.length; j++) {
-                    const a = this.mapActivity(items[j]);
-                    if (a) mapped.push(a);
-                }
-                if (mapped.length === 0 && typeof val === 'object') {
-                    const mk = Object.keys(val);
-                    for (let j = 0; j < mk.length; j++) {
-                        if (mk[j] === '#text') continue;
-                        const ma = this.mapActivity({ [mk[j]]: val[mk[j]] });
-                        if (ma) mapped.push(ma);
+                if (Array.isArray(val)) {
+                    for (let j = 0; j < val.length; j++) {
+                        mapped.push(...this.mapActivitiesFromObject(val[j]));
                     }
+                } else if (typeof val === 'object') {
+                    mapped.push(...this.mapActivitiesFromObject(val));
                 }
                 return { type: 'drillset', items: mapped };
             } else if (k === 'bandWork') {
@@ -207,8 +215,16 @@ export class DSMLParser {
                             'sauna',
                         ].includes(k)
                     ) {
-                        const act = this.mapActivity({ [k]: obj[k] });
-                        if (act) activities.push(act);
+                        const val = obj[k];
+                        if (Array.isArray(val)) {
+                            for (let j = 0; j < val.length; j++) {
+                                const act = this.mapActivity({ [k]: val[j] });
+                                if (act) activities.push(act);
+                            }
+                        } else {
+                            const act = this.mapActivity({ [k]: val });
+                            if (act) activities.push(act);
+                        }
                         continue;
                     }
                     process(obj[k]);

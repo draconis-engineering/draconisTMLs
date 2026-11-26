@@ -6,12 +6,12 @@ DTMLs is an open-source XML-based standard for describing triathlon training ses
 
 ## Languages
 
-| Language                                             | File Extension | Purpose                                                    | Status                    |
-| ---------------------------------------------------- | -------------- | ---------------------------------------------------------- | ------------------------- |
-| DSML (Draconis Swimming Markup Language)             | `.dsml.xml`    | Swimming sessions                                          | In progress (has example) |
-| DRML (Draconis Running Markup Language)              | `.drml.xml`    | Running sessions                                           | Planned                   |
-| DCML (Draconis Cycling Markup Language)              | `.dcml.xml`    | Cycling sessions                                           | Planned                   |
-| DTIR (Draconis Training Intermediate Representation) | `.dtir.xml`    | Common intermediate format for normalization/transpilation | Planned                   |
+| Language                                    | File Extension | Purpose                                   | Status                    |
+| ------------------------------------------- | -------------- | ----------------------------------------- | ------------------------- |
+| DSML (Draconis Swimming Markup Language)    | `.dsml.xml`    | Swimming sessions                         | In progress (has example) |
+| DRML (Draconis Running Markup Language)     | `.drml.xml`    | Running sessions                          | Planned                   |
+| DCML (Draconis Cycling Markup Language)     | `.dcml.xml`    | Cycling sessions                          | Planned                   |
+| DTIR (Draconis Training Intermediate Repr.) | `.dtir.xml`    | Common IR for normalization/transpilation | Planned                   |
 
 ## Design Goals
 

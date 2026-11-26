@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xs:schema
-	xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	targetNamespace="https://draconis.engineering/dtml/dsml"
-	xmlns="https://draconis.engineering/dtml/dsml"
-	elementFormDefault="qualified"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="https://draconis.engineering/dtml/dsml"
+    xmlns="https://draconis.engineering/dtml/dsml"
+    elementFormDefault="qualified"
 >
 
   <xs:annotation>
@@ -56,50 +56,50 @@
     <xs:attribute name="laneWidthMeters" type="xs:decimal" use="optional" />
     <xs:attribute name="depthMeters" type="xs:decimal" use="optional" />
     <xs:attribute
-			name="indoor"
-			type="xs:boolean"
-			use="optional"
-			default="true"
-		/>
+            name="indoor"
+            type="xs:boolean"
+            use="optional"
+            default="true"
+        />
   </xs:complexType>
 
   <xs:complexType name="GearType">
     <xs:attribute
-			name="paddles"
-			type="xs:boolean"
-			use="optional"
-			default="false"
-		/>
+            name="paddles"
+            type="xs:boolean"
+            use="optional"
+            default="false"
+        />
     <xs:attribute
-			name="fins"
-			type="xs:boolean"
-			use="optional"
-			default="false"
-		/>
+            name="fins"
+            type="xs:boolean"
+            use="optional"
+            default="false"
+        />
     <xs:attribute
-			name="snorkel"
-			type="xs:boolean"
-			use="optional"
-			default="false"
-		/>
+            name="snorkel"
+            type="xs:boolean"
+            use="optional"
+            default="false"
+        />
     <xs:attribute
-			name="pullbuoy"
-			type="xs:boolean"
-			use="optional"
-			default="false"
-		/>
+            name="pullbuoy"
+            type="xs:boolean"
+            use="optional"
+            default="false"
+        />
     <xs:attribute
-			name="kickboard"
-			type="xs:boolean"
-			use="optional"
-			default="false"
-		/>
+            name="kickboard"
+            type="xs:boolean"
+            use="optional"
+            default="false"
+        />
     <xs:attribute
-			name="bands"
-			type="xs:boolean"
-			use="optional"
-			default="false"
-		/>
+            name="bands"
+            type="xs:boolean"
+            use="optional"
+            default="false"
+        />
   </xs:complexType>
 
   <!-- Session Phase - contains activities -->
@@ -146,11 +146,11 @@
       <xs:element name="rest" type="RestType" />
     </xs:choice>
     <xs:attribute
-			name="count"
-			type="xs:positiveInteger"
-			use="optional"
-			default="1"
-		/>
+            name="count"
+            type="xs:positiveInteger"
+            use="optional"
+            default="1"
+        />
   </xs:complexType>
 
   <xs:complexType name="SwimStrokeType">

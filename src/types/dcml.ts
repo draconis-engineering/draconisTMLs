@@ -44,7 +44,7 @@ export interface CycleIntervals {
 export interface Blocks {
     type: 'blocks';
     repeats: number;
-    items: (Ride | CycleIntervals | CycleRest)[];
+    items: BikeActivity[];
 }
 
 export type BikeActivity = Ride | CycleIntervals | Blocks | CycleRest;

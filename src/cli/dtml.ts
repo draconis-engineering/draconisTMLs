@@ -8,6 +8,7 @@ import { DCMLParser } from '../parsers/dcml';
 import { DSMLWriter } from '../writers/dsml';
 import { DRMLWriter } from '../writers/drml';
 import { DCMLWriter } from '../writers/dcml';
+import { DTIRWriter } from '../writers/dtir';
 import { DTIRTransformer } from '../transformers/dtir';
 
 function usage() {
@@ -16,7 +17,7 @@ function usage() {
 Commands:
   validate <file>        Validate a DTML file
   check <file>           Same as validate
-  convert <file> --to dtir|json
+  convert <file> --to dtir|json [--json]
   to-json <file>         Convert DTML to JSON
   format <file>          Pretty print/normalize XML
   parse <file>           Parse and output JSON representation
@@ -145,23 +146,18 @@ function main() {
             }
         } else if (to === 'dtir') {
             const transformer = new DTIRTransformer();
+            const writer = new DTIRWriter();
+            const asJson = args.includes('--json');
+            let dtir: any = null;
             if (type === 'dsml') {
-                const parser = new DSMLParser();
-                const parsed = parser.parseFile(p);
-                const dtir = transformer.toDTIR(parsed as any);
-                console.log(JSON.stringify(dtir, null, 2));
-                process.exit(0);
+                dtir = transformer.toDTIR(new DSMLParser().parseFile(p) as any);
             } else if (type === 'drml') {
-                const parser = new DRMLParser();
-                const parsed = parser.parseFile(p);
-                const dtir = transformer.toDTIR(parsed as any);
-                console.log(JSON.stringify(dtir, null, 2));
-                process.exit(0);
+                dtir = transformer.toDTIR(new DRMLParser().parseFile(p) as any);
             } else if (type === 'dcml') {
-                const parser = new DCMLParser();
-                const parsed = parser.parseFile(p);
-                const dtir = transformer.toDTIR(parsed as any);
-                console.log(JSON.stringify(dtir, null, 2));
+                dtir = transformer.toDTIR(new DCMLParser().parseFile(p) as any);
+            }
+            if (dtir) {
+                console.log(asJson ? JSON.stringify(dtir, null, 2) : writer.write(dtir));
                 process.exit(0);
             }
         }
